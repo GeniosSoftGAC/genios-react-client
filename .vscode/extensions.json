@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "antfu.vite",
+    "aaron-bond.better-comments",
+    "remimarsal.prettier-now",
+    "dsznajder.es7-react-js-snippets",
+    "christian-kohler.path-intellisense",
+    "jpoissonnier.vscode-styled-components"
+  ]
+}

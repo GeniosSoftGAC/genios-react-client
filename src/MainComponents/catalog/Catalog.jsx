@@ -1,4 +1,6 @@
+
 const Catalog = () => {
+
   return (
     <div>
       <h1>Bienvenido a el Catálogo</h1>
