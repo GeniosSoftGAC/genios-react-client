@@ -1,10 +1,17 @@
 {
   "recommendations": [
-    "antfu.vite",
-    "aaron-bond.better-comments",
-    "remimarsal.prettier-now",
+    "jpoissonnier.vscode-styled-components",
+    "syler.sass-indented",
+    "pkief.material-icon-theme",
     "dsznajder.es7-react-js-snippets",
+    "dbaeumer.vscode-eslint",
+    "abusaidm.html-snippets",
+    "zignd.html-css-class-completion",
+    "xabikos.javascriptsnippets",
     "christian-kohler.path-intellisense",
-    "jpoissonnier.vscode-styled-components"
+    "eamodio.gitlens",
+    "waderyan.gitblame",
+    "ms-azuretools.vscode-docker",
+    "esbenp.prettier-vscode"
   ]
 }

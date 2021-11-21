@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "history": "^5.1.0",
+    "prettier": "^2.4.1",
+    "prettier-miscellaneous": "^1.5.3",
     "primeicons": "^5.0.0",
     "primereact": "^7.0.1",
     "react": "^17.0.0",
