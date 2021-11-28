@@ -6,9 +6,9 @@ import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 
 // Importar los componentes principales
-import { Home } from './MainComponents/home/Home'
-import { Catalog } from './MainComponents/catalog/Catalog'
-import { Checkout } from './MainComponents/checkout/Checkout'
+import { Home } from './CommercialComponents/home/Home'
+import { Catalog } from './CommercialComponents/catalog/Catalog'
+import { Checkout } from './CommercialComponents/checkout/Checkout'
 
 const App = () => {
   return (
