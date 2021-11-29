@@ -44,10 +44,10 @@ const Products = ({ productList }) => {
       return (
         <ProductCard
           key={id}
-          id={id}
-          name={product.name}
-          price={product.price}
-          image={product.image}
+          name={product.nombre}
+          price={product.precio}
+          image={product.foto}
+          data={product}
         />
       )
     })

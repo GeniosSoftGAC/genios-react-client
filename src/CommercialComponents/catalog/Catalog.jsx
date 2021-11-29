@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Navbar } from '../../MicroComponents/Navbar'
 import logo from '../../assets/logo.svg'
 import { Dropdown } from 'primereact/dropdown'
 import { BurnProducts } from './BurnProducts'
-import { Products } from './Products'
+// import { Products } from './Products'
+import { ShoppingCart } from '../../MicroComponents/ShoppingCart'
+
+import { fetchProducts } from './Managers/ProductManager'
 
 const Catalog = () => {
   const CatalogLinks = [
@@ -15,7 +18,7 @@ const Catalog = () => {
 
   const categories = [
     { name: 'Muebles', code: 'M' },
-    { name: 'Juguetes', code: 'M' },
+    { name: 'Juguetes', code: 'J' },
   ]
 
   const onCategoryChange = (event) => {
@@ -29,6 +32,7 @@ const Catalog = () => {
         brandTitle="Genios aprende jugando"
         logoSize="50px"
         links={CatalogLinks}
+        additionalItem={<ShoppingCart />}
       />
       <Dropdown
         value={selectedCategory}
@@ -37,8 +41,7 @@ const Catalog = () => {
         optionLabel="name"
         placeholder="Seleccionar Categoría"
       />
-
-      <Products productList={BurnProducts} />
+      {fetchProducts()}
     </div>
   )
 }

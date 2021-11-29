@@ -1,3 +1,4 @@
+import { Button } from 'primereact/button'
 import styled from 'styled-components'
 
 const ProductCardContainer = styled.div`
@@ -30,30 +31,38 @@ const ProductCardContainer = styled.div`
   }
 `
 
-const ProductCard = ({ name, price, image, id }) => {
-  const onCardClick = (event) => {
+const ProductCard = ({ name, price, image, data }) => {
+  const onAddToCart = (event) => {
+    event.stopPropagation()
     event.detail = {
-      id: id,
-      name: name,
-      price: price,
+      id: data.id,
+      name: data.nombre,
+      price: data.precio,
+      description: data.descripcion,
+      reference: data.referencia,
+      category: data.categoria,
+      dimensions: data.dimensiones,
     }
-    console.log(event.detail)
+    const addCart = new CustomEvent('add-cart', { detail: event.detail })
+    document.dispatchEvent(addCart)
   }
 
   return (
-    <ProductCardContainer onClick={onCardClick} image={image}>
+    <ProductCardContainer image={image}>
       <div className="product-card__image"></div>
       <div className="product-info">
         <div>
           <h2 className="product-name">{name}</h2>
           <p className="product-price">
-            <strong>price:</strong>
+            <strong>Price: </strong>
             {price}
           </p>
         </div>
-        <div className="shopping-add" id="id">
-          <i className="fa fa-cart-plus"></i>
-        </div>
+        <Button
+          icon="pi pi-plus"
+          className="p-button-rounded"
+          onClick={onAddToCart}
+        />
       </div>
     </ProductCardContainer>
   )
