@@ -15,7 +15,7 @@ const fetchProducts = () => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:8000/products')
+    fetch('http://127.0.0.1:8000/products')
       .then((response) => response.json())
       .then((data) => {
         setIsLoaded(true)

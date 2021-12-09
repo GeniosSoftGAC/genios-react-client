@@ -6,7 +6,7 @@ import logo from '../../assets/logo.svg'
 const Home = () => {
   const HomeItems = [
     { label: 'ver catálogo', route: '/catalog', icon: 'pi pi-shopping-bag' },
-    { label: 'Iniciar Sesión', route: '/', icon: 'pi pi-user' },
+    { label: 'Iniciar Sesión', route: '/login', icon: 'pi pi-user' },
   ]
 
   return (

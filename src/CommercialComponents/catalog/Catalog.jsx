@@ -11,7 +11,7 @@ import { fetchProducts } from './Managers/ProductManager'
 const Catalog = () => {
   const CatalogLinks = [
     { label: 'home', route: '/', icon: 'pi pi-shopping-bag' },
-    { label: 'Iniciar Sesión', route: '/', icon: 'pi pi-user' },
+    { label: 'Iniciar Sesión', route: '/login', icon: 'pi pi-user' },
   ]
 
   const [selectedCategory, setSelectedCategory] = useState(null)
