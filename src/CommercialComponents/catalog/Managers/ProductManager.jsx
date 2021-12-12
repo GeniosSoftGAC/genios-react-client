@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import { Products } from '../Products'
 import { Paginator } from 'primereact/paginator'
 
-const fetchProducts = () => {
+const fetchProducts = (limit) => {
+  const productLimit = limit || 6
+
   const [basicFirst, setBasicFirst] = useState(0)
 
   const onPageChange = (event) => {
@@ -33,13 +35,13 @@ const fetchProducts = () => {
   } else if (!isLoaded) {
     return <h1>Loading products...</h1>
   } else {
-    const productList = products.slice(basicFirst, basicFirst + 6)
+    const productList = products.slice(basicFirst, basicFirst + productLimit)
     return (
       <div>
         <Products productList={productList} />
         <Paginator
           first={basicFirst}
-          rows={6}
+          rows={productLimit}
           totalRecords={products.length}
           onPageChange={onPageChange}
         ></Paginator>

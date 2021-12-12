@@ -41,7 +41,7 @@ const Catalog = () => {
         optionLabel="name"
         placeholder="Seleccionar Categoría"
       />
-      {fetchProducts()}
+      {fetchProducts(8)}
     </div>
   )
 }
