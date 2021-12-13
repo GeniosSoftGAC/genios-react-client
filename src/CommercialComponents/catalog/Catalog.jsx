@@ -4,7 +4,7 @@ import logo from '../../assets/logo.svg'
 import { Dropdown } from 'primereact/dropdown'
 import { BurnProducts } from './BurnProducts'
 // import { Products } from './Products'
-import { ShoppingCart } from '../../MicroComponents/ShoppingCart'
+import { ShoppingCart } from '../shoppingcart/ShoppingCart'
 
 import { fetchProducts } from './Managers/ProductManager'
 

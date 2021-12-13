@@ -1,4 +1,5 @@
 import { Button } from 'primereact/button'
+import { animate } from 'motion'
 import styled from 'styled-components'
 
 const ProductCardContainer = styled.div`
@@ -9,6 +10,13 @@ const ProductCardContainer = styled.div`
   border: 1px solid rgba(227, 227, 227, 1);
   border-radius: 5px;
   max-width: 100%;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+
+  &:hover {
+    transform: scale(1.01);
+    border: 1px solid lightgray;
+  }
 
   .product-card__image {
     background-image: url('${(props) => props.image}');
@@ -34,6 +42,16 @@ const ProductCardContainer = styled.div`
 const ProductCard = ({ name, price, image, data }) => {
   const onAddToCart = (event) => {
     event.stopPropagation()
+
+    // set animation
+    const addButton = event.target.closest('.add-cart')
+    animate(
+      addButton,
+      { transform: ['scale(1.1)', 'scale(1)'] },
+      { duration: 0.4 }
+    )
+    //-----
+
     event.detail = {
       id: data.id,
       name: data.nombre,
@@ -48,7 +66,7 @@ const ProductCard = ({ name, price, image, data }) => {
   }
 
   return (
-    <ProductCardContainer image={image}>
+    <ProductCardContainer className="card-container" image={image}>
       <div className="product-card__image"></div>
       <div className="product-info">
         <div>
@@ -60,7 +78,7 @@ const ProductCard = ({ name, price, image, data }) => {
         </div>
         <Button
           icon="pi pi-plus"
-          className="p-button-rounded"
+          className="add-cart p-button-rounded"
           onClick={onAddToCart}
         />
       </div>
