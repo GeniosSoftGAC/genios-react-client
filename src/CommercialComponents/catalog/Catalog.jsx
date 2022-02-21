@@ -5,8 +5,9 @@ import { Dropdown } from 'primereact/dropdown'
 import { BurnProducts } from './BurnProducts'
 // import { Products } from './Products'
 import { ShoppingCart } from '../shoppingcart/ShoppingCart'
-
 import { fetchProducts } from './Managers/ProductManager'
+
+import { on, off } from '../../utils/events'
 
 const Catalog = () => {
   const CatalogLinks = [
@@ -15,6 +16,7 @@ const Catalog = () => {
   ]
 
   const [selectedCategory, setSelectedCategory] = useState(null)
+  const [limit, setLimit] = useState(8)
 
   const categories = [
     { name: 'Muebles', code: 'M' },
@@ -24,6 +26,19 @@ const Catalog = () => {
   const onCategoryChange = (event) => {
     setSelectedCategory(event.value)
   }
+
+  const updateBoxes = (event) => {
+    event.stopPropagation()
+    setLimit(event.detail.boxes)
+  }
+
+  useEffect(() => {
+    on('product:load', updateBoxes)
+
+    return () => {
+      off('product:load', updateBoxes)
+    }
+  }, [updateBoxes])
 
   return (
     <div>
@@ -41,7 +56,7 @@ const Catalog = () => {
         optionLabel="name"
         placeholder="Seleccionar Categoría"
       />
-      {fetchProducts(8)}
+      {fetchProducts(limit)}
     </div>
   )
 }

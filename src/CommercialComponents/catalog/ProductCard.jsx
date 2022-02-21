@@ -1,5 +1,6 @@
 import { Button } from 'primereact/button'
 import { animate } from 'motion'
+import { trigger } from '../../utils/events'
 import styled from 'styled-components'
 
 const ProductCardContainer = styled.div`
@@ -61,8 +62,8 @@ const ProductCard = ({ name, price, image, data }) => {
       category: data.categoria,
       dimensions: data.dimensiones,
     }
-    const addCart = new CustomEvent('add-cart', { detail: event.detail })
-    document.dispatchEvent(addCart)
+
+    trigger('addProduct:click', event.detail)
   }
 
   return (

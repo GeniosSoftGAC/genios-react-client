@@ -8,7 +8,6 @@ const fetchProducts = (limit) => {
   const [basicFirst, setBasicFirst] = useState(0)
 
   const onPageChange = (event) => {
-    console.log(event)
     setBasicFirst(event.first)
   }
 
@@ -22,7 +21,6 @@ const fetchProducts = (limit) => {
       .then((data) => {
         setIsLoaded(true)
         setProducts(data)
-        console.log(data)
       }),
       (error) => {
         setIsLoaded(true)

@@ -1,35 +1,48 @@
+import { useEffect } from 'react'
 import { Sidebar } from 'primereact/sidebar'
 import { Button } from 'primereact/button'
 import { CartCard } from './CartCard'
 import { useState } from 'react'
+import { on, off } from '../../utils/events'
 
 const ShoppingCart = () => {
   const [visible, setVisible] = useState(false)
 
-  const listenAdded = () => {
-    document.addEventListener('add-cart', (event) => {
-      event.stopImmediatePropagation()
-      console.log(event.detail)
-    })
+  const [productList, setProductList] = useState([])
+
+  const addProduct = (event) => {
+    event.stopPropagation
+    document.querySelector('body').style.overflow = 'hidden'
+
+    const productData = event.detail
+
+    const pushProduct = [...productList, productData]
+    setProductList(pushProduct)
   }
+
+  const openCart = () => {
+    setVisible(true)
+  }
+
+  // listening external event
+  useEffect(() => {
+    on('addProduct:click', addProduct)
+
+    return () => {
+      off('addProduct:click', addProduct)
+    }
+  }, [openCart])
 
   if (!visible) {
     document.querySelector('body').style.overflow = 'auto'
   }
-  const openCart = (event) => {
-    event.stopPropagation
-    document.querySelector('body').style.overflow = 'hidden'
-    setVisible(true)
-  }
-
-  listenAdded()
 
   return (
     <div>
       <Button
         icon="pi pi-shopping-cart"
         label="carrito"
-        badge="8"
+        badge={productList.length}
         onClick={openCart}
       />
       <Sidebar
