@@ -1,5 +1,4 @@
 const CartCard = ({ product }) => {
-  console.log(product.name)
   return (
     <div>
       <h3>{product.name}</h3>

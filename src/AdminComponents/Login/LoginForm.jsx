@@ -10,6 +10,8 @@ import { UserLogin } from '../services/UserLogin'
 
 const LoginForm = () => {
   const [showMessage, setShowMessage] = useState(false)
+  const [showErrorMessage, setShowErrorMessage] = useState(false)
+  const [loginError, setLoginError] = useState('')
   const [formData, setFormData] = useState({})
 
   const defaultValues = {
@@ -27,11 +29,23 @@ const LoginForm = () => {
   const onSubmit = (data) => {
     const response = UserLogin(data.email, data.password)
     response.then((data) => {
-      if (data) {
-        setFormData(data.user)
-        setShowMessage(true)
-        reset()
+      // Capture error messages
+      if (!Object.keys(data).length) {
+        const dataErrorMessage = JSON.parse(data.message)
+
+        if (dataErrorMessage.password) {
+          setLoginError(dataErrorMessage.password[0])
+          setShowErrorMessage(true)
+        } else {
+          setLoginError(dataErrorMessage.non_field_errors[0])
+          setShowErrorMessage(true)
+        }
+        return
       }
+      // Success secuence
+      setFormData(data.user)
+      setShowMessage(true)
+      reset()
     })
   }
 
@@ -48,7 +62,7 @@ const LoginForm = () => {
     setShowMessage(false)
   }
 
-  const dialogFooter = (
+  const successDialogFooter = (
     <div className="p-d-flex p-jc-center">
       <Button
         label="OK"
@@ -65,7 +79,7 @@ const LoginForm = () => {
         visible={showMessage}
         onHide={() => setShowMessage(false)}
         position="center"
-        footer={dialogFooter}
+        footer={successDialogFooter}
         showHeader={false}
         breakpoints={{ '960px': '80vw' }}
         style={{ width: '30vw' }}
@@ -78,7 +92,30 @@ const LoginForm = () => {
             className="pi pi-check-circle"
             style={{ fontSize: '5rem', color: 'var(--green-500)' }}
           ></i>
-          <h5> Bienvenid@ {formData.email}</h5>
+          <h5> Bienvenid@ {formData.first_name}</h5>
+        </div>
+      </Dialog>
+      {/*Error Message */}
+      <Dialog
+        visible={showErrorMessage}
+        onHide={() => setShowErrorMessage(false)}
+        position="center"
+        breakpoints={{ '960px': '80vw' }}
+        style={{ width: '30vw' }}
+      >
+        <div
+          style={{
+            display: 'grid',
+            gridAutoFlow: 'column',
+            placeItems: 'center',
+            gap: '1rem',
+          }}
+        >
+          <i
+            style={{ fontSize: '3rem', color: 'var(--pink-500)' }}
+            className="pi pi-info-circle"
+          ></i>
+          <h5>ERROR: {loginError} </h5>
         </div>
       </Dialog>
 

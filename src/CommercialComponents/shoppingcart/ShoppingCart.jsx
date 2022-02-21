@@ -16,6 +16,9 @@ const ShoppingCart = () => {
     const productData = event.detail
 
     // Checks if item is in list and ends function
+    /*
+    TODO: Add a new key for each product counting the quantity of each one. 
+    */
     if (productList.some((item) => item.id === productData.id)) return
 
     const pushProduct = [...productList, productData]
@@ -34,7 +37,7 @@ const ShoppingCart = () => {
     return <CartCard key={product.id} product={product} />
   })
 
-  // listening external event
+  // listening add product external event
   useEffect(() => {
     on('addProduct:click', addProduct)
 

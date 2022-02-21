@@ -26,7 +26,9 @@ const UserLogin = async (email, password) => {
     .then((data) => {
       returnedData = data
     })
-    .catch((error) => console.log(error))
+    .catch((error) => {
+      returnedData = error
+    })
 
   return returnedData
 }
