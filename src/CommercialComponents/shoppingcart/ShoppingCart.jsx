@@ -11,10 +11,12 @@ const ShoppingCart = () => {
   const [productList, setProductList] = useState([])
 
   const addProduct = (event) => {
-    event.stopPropagation
     document.querySelector('body').style.overflow = 'hidden'
 
     const productData = event.detail
+
+    // Checks if item is in list and ends function
+    if (productList.some((item) => item.id === productData.id)) return
 
     const pushProduct = [...productList, productData]
     setProductList(pushProduct)
@@ -24,6 +26,14 @@ const ShoppingCart = () => {
     setVisible(true)
   }
 
+  if (!visible) {
+    document.querySelector('body').style.overflow = 'auto'
+  }
+
+  const renderProductList = productList.map((product) => {
+    return <CartCard key={product.id} product={product} />
+  })
+
   // listening external event
   useEffect(() => {
     on('addProduct:click', addProduct)
@@ -32,10 +42,6 @@ const ShoppingCart = () => {
       off('addProduct:click', addProduct)
     }
   }, [openCart])
-
-  if (!visible) {
-    document.querySelector('body').style.overflow = 'auto'
-  }
 
   return (
     <div>
@@ -51,7 +57,7 @@ const ShoppingCart = () => {
         onHide={() => setVisible(false)}
       >
         <h1>Hello im the shopping cart</h1>
-        <CartCard data={{ detail: 'props works' }} />
+        {renderProductList}
       </Sidebar>
     </div>
   )

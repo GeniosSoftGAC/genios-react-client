@@ -1,8 +1,12 @@
-const CartCard = ({ data }) => {
+const CartCard = ({ product }) => {
+  console.log(product.name)
   return (
     <div>
-      <h1>This is a cart card</h1>
-      {data.detail}
+      <h3>{product.name}</h3>
+      <p>
+        {' '}
+        <strong>precio</strong> {product.price}{' '}
+      </p>
     </div>
   )
 }

@@ -50,6 +50,7 @@ const Catalog = () => {
         additionalItem={<ShoppingCart />}
       />
       <Dropdown
+        style={{ margin: '1rem' }}
         value={selectedCategory}
         options={categories}
         onChange={onCategoryChange}
