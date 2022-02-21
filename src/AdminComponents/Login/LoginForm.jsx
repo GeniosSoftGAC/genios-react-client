@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { Dialog } from 'primereact/dialog'
 import { Password } from 'primereact/password'
@@ -6,13 +6,14 @@ import { Button } from 'primereact/button'
 import { classNames } from 'primereact/utils'
 import { InputText } from 'primereact/inputtext'
 import { useNavigate } from 'react-router-dom'
+import { UserLogin } from '../services/UserLogin'
 
 const LoginForm = () => {
   const [showMessage, setShowMessage] = useState(false)
   const [formData, setFormData] = useState({})
 
   const defaultValues = {
-    name: '',
+    email: '',
     password: '',
   }
 
@@ -23,12 +24,15 @@ const LoginForm = () => {
     reset,
   } = useForm({ defaultValues })
 
-  console.log(formData)
-
   const onSubmit = (data) => {
-    setFormData(data)
-    setShowMessage(true)
-    reset()
+    const response = UserLogin(data.email, data.password)
+    response.then((data) => {
+      if (data) {
+        setFormData(data.user)
+        setShowMessage(true)
+        reset()
+      }
+    })
   }
 
   const getFormErrorMessage = (name) => {
@@ -38,6 +42,7 @@ const LoginForm = () => {
   }
 
   const navigate = useNavigate()
+
   const handleLoginSuccess = (event) => {
     navigate('/admin/product-admin')
     setShowMessage(false)
@@ -73,25 +78,27 @@ const LoginForm = () => {
             className="pi pi-check-circle"
             style={{ fontSize: '5rem', color: 'var(--green-500)' }}
           ></i>
-          <h5> Bienvenid@ {formData.name}</h5>
+          <h5> Bienvenid@ {formData.email}</h5>
         </div>
       </Dialog>
+
       <div className="login-form__container">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="p-fluid login-form__form"
         >
           <h1>Iniciar Sesión</h1>
+
           {/*    CAMPO PARA NOMBRE */}
           <div className="p-field">
             <span className="p-float-label">
               <Controller
-                name="name"
+                name="email"
                 control={control}
-                rules={{ required: 'Name is required.' }}
+                rules={{ required: 'Email is required.' }}
                 render={({ field, fieldState }) => (
                   <InputText
-                    id={field.name}
+                    id={field.email}
                     {...field}
                     autoFocus
                     className={classNames({ 'p-invalid': fieldState.invalid })}
@@ -99,14 +106,15 @@ const LoginForm = () => {
                 )}
               />
               <label
-                htmlFor="name"
+                htmlFor="email"
                 className={classNames({ 'p-error': errors.name })}
               >
-                Name*
+                Email*
               </label>
             </span>
             {getFormErrorMessage('name')}
           </div>
+
           {/*    CAMPO PARA PASSWORD */}
           <div className="p-field">
             <span className="p-float-label">

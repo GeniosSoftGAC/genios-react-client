@@ -12,10 +12,10 @@ const ProductGrid = styled.div`
 
 const Products = ({ productList }) => {
   const renderProducts = (productItems) => {
-    return productItems.map((product, id) => {
+    return productItems.map((product) => {
       return (
         <ProductCard
-          key={id}
+          key={product.id}
           name={product.nombre}
           price={product.precio}
           image={product.foto}
