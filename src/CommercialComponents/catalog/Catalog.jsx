@@ -16,7 +16,6 @@ const Catalog = () => {
   ]
 
   const [selectedCategory, setSelectedCategory] = useState(null)
-  const [limit, setLimit] = useState(8)
 
   const categories = [
     { name: 'Muebles', code: 'M' },
@@ -26,19 +25,6 @@ const Catalog = () => {
   const onCategoryChange = (event) => {
     setSelectedCategory(event.value)
   }
-
-  const updateBoxes = (event) => {
-    event.stopPropagation()
-    setLimit(event.detail.boxes)
-  }
-
-  useEffect(() => {
-    on('product:load', updateBoxes)
-
-    return () => {
-      off('product:load', updateBoxes)
-    }
-  }, [updateBoxes])
 
   return (
     <div>
@@ -57,7 +43,7 @@ const Catalog = () => {
         optionLabel="name"
         placeholder="Seleccionar Categoría"
       />
-      {fetchProducts(limit)}
+      {fetchProducts(12)}
     </div>
   )
 }

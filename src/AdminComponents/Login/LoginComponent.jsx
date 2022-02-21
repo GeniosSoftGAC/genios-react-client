@@ -6,7 +6,7 @@ import logo from '../../assets/logo.svg'
 const LoginComponent = () => {
   const LoginLinks = [
     { label: 'home', route: '/', icon: 'pi pi-shopping-bag' },
-    { label: 'catalogo', route: '/catalog', icon: 'pi pi-user' },
+    { label: 'catalogo', route: '/catalog', icon: 'pi pi-shopping-bag' },
   ]
   return (
     <FormContainer>

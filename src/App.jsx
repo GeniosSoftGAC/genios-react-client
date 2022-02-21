@@ -15,7 +15,9 @@ import { Checkout } from './CommercialComponents/checkout/Checkout'
 // Importar los componentes de administración
 
 import { LoginComponent } from './AdminComponents/Login/LoginComponent'
-import { ProductAdmin } from './AdminComponents/ProductAdmin/ProductAdmin'
+import { Admin } from './AdminComponents/Admin/Admin'
+import { ProductAdmin } from './AdminComponents/Admin/ProductAdmin/ProductAdmin'
+import { UserAdmin } from './AdminComponents/Admin/ProductAdmin/UserAdmin'
 
 const App = () => {
   return (
@@ -26,7 +28,10 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/admin/product-admin" element={<ProductAdmin />} />
+          <Route path="/admin/" element={<Admin />}>
+            <Route path="/admin/user-admin" element={<UserAdmin />} />
+            <Route path="/admin/product-admin" element={<ProductAdmin />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>
