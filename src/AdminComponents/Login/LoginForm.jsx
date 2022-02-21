@@ -34,7 +34,7 @@ const LoginForm = () => {
         const dataErrorMessage = JSON.parse(data.message)
 
         if (dataErrorMessage.password) {
-          setLoginError(dataErrorMessage.password[0])
+          setLoginError(`Password Error: ${dataErrorMessage.password[0]}`)
           setShowErrorMessage(true)
         } else {
           setLoginError(dataErrorMessage.non_field_errors[0])
@@ -115,7 +115,7 @@ const LoginForm = () => {
             style={{ fontSize: '3rem', color: 'var(--pink-500)' }}
             className="pi pi-info-circle"
           ></i>
-          <h5>ERROR: {loginError} </h5>
+          <h5>{loginError} </h5>
         </div>
       </Dialog>
 
@@ -132,7 +132,13 @@ const LoginForm = () => {
               <Controller
                 name="email"
                 control={control}
-                rules={{ required: 'Email is required.' }}
+                rules={{
+                  required: 'El correo es obligatorio.',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: 'Correo no válido . E.g. ejemplo@email.com',
+                  },
+                }}
                 render={({ field, fieldState }) => (
                   <InputText
                     id={field.email}
@@ -144,12 +150,12 @@ const LoginForm = () => {
               />
               <label
                 htmlFor="email"
-                className={classNames({ 'p-error': errors.name })}
+                className={classNames({ 'p-error': !!errors.email })}
               >
                 Email*
               </label>
             </span>
-            {getFormErrorMessage('name')}
+            {getFormErrorMessage('email')}
           </div>
 
           {/*    CAMPO PARA PASSWORD */}
@@ -158,7 +164,7 @@ const LoginForm = () => {
               <Controller
                 name="password"
                 control={control}
-                rules={{ required: 'Password is required.' }}
+                rules={{ required: 'La contraseña es obligatoria.' }}
                 render={({ field, fieldState }) => (
                   <Password
                     id={field.name}
@@ -172,7 +178,7 @@ const LoginForm = () => {
                 htmlFor="password"
                 className={classNames({ 'p-error': errors.password })}
               >
-                Password*
+                Contraseña*
               </label>
             </span>
             {getFormErrorMessage('password')}
