@@ -44,6 +44,8 @@ const LoginForm = () => {
       }
       // Success secuence
       setFormData(data.user)
+      //set persist user data
+      localStorage.setItem('login-data', JSON.stringify(data.user))
       setShowMessage(true)
       reset()
     })
@@ -57,7 +59,7 @@ const LoginForm = () => {
 
   const navigate = useNavigate()
 
-  const handleLoginSuccess = (event) => {
+  const handleLoginSuccess = () => {
     navigate('/admin/product-admin')
     setShowMessage(false)
   }
@@ -72,6 +74,12 @@ const LoginForm = () => {
       />
     </div>
   )
+
+  useEffect(() => {
+    const userConnection = JSON.parse(localStorage.getItem('login-data'))
+    if (!userConnection) return
+    handleLoginSuccess()
+  })
 
   return (
     <>
