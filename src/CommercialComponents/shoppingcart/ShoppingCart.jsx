@@ -27,6 +27,7 @@ const ShoppingCart = () => {
 
   const openCart = () => {
     setVisible(true)
+    document.querySelector('body').style.overflow = 'hidden'
   }
 
   if (!visible) {
@@ -59,8 +60,22 @@ const ShoppingCart = () => {
         visible={visible}
         onHide={() => setVisible(false)}
       >
-        <h1>Hello im the shopping cart</h1>
-        {renderProductList}
+        <h1>Mi Carrito</h1>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.5rem',
+            height: '650px',
+            overflow: 'auto',
+            padding: '0.2rem',
+            alignContent: 'center',
+          }}
+          className="cart-list"
+        >
+          {renderProductList}
+        </div>
       </Sidebar>
     </div>
   )

@@ -8,22 +8,22 @@
 /* Firefox */
 * {
   scrollbar-width: auto;
-  scrollbar-color: #0077e6 #e6e6e6;
+  scrollbar-color: #49515a #c7c7c7;
 }
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: 16px;
+  width: 13px;
 }
 
 *::-webkit-scrollbar-track {
-  background: #e6e6e6;
+  background: #c7c7c7;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #0077e6;
+  background-color: #49515a;
   border-radius: 10px;
-  border: 3px solid #ffffff;
+  border: 2px solid #c2c2c2;
 }
 
 body {

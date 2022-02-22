@@ -22,31 +22,25 @@ const Admin = () => {
 
   const items = [
     {
-      label: 'File',
-      icon: 'pi pi-fw pi-file',
-      items: [
-        {
-          label: 'Usuarios',
-          icon: 'pi pi-fw pi-user',
-          command: () => {
-            navigate('/admin/user-admin')
-          },
-        },
-        {
-          label: 'Productos',
-          icon: 'pi pi-fw pi-shopping-bag',
-          command: () => {
-            navigate('/admin/product-admin')
-          },
-        },
-        {
-          label: 'Cerrar Sesión',
-          icon: 'pi pi-fw pi-external-link',
-          command: () => {
-            onLogout()
-          },
-        },
-      ],
+      label: 'Usuarios',
+      icon: 'pi pi-fw pi-user',
+      command: () => {
+        navigate('/admin/user-admin')
+      },
+    },
+    {
+      label: 'Productos',
+      icon: 'pi pi-fw pi-shopping-bag',
+      command: () => {
+        navigate('/admin/product-admin')
+      },
+    },
+    {
+      label: 'Cerrar Sesión',
+      icon: 'pi pi-fw pi-external-link',
+      command: () => {
+        onLogout()
+      },
     },
   ]
 

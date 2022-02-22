@@ -12,6 +12,8 @@ const ProductCardContainer = styled.div`
   border-radius: 5px;
   max-width: 100%;
   cursor: pointer;
+  width: 100%;
+  height: 350px;
   transition: transform 0.1s ease-in-out;
 
   &:hover {
@@ -37,6 +39,10 @@ const ProductCardContainer = styled.div`
     display: flex;
     gap: 1rem;
     align-items: center;
+  }
+
+  .product-name {
+    font-size: 1.2rem;
   }
 `
 
