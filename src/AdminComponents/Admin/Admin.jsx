@@ -4,7 +4,6 @@ import { confirmPopup } from 'primereact/confirmpopup'
 
 // Prime
 import { Menubar } from 'primereact/menubar'
-
 import { AdminWrapper } from './styled/AdminWrapper'
 
 import Logo from '../../assets/logo.svg'

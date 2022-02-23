@@ -4,15 +4,29 @@ import { Button } from 'primereact/button'
 import { CartCard } from './CartCard'
 import { useState } from 'react'
 import { on, off } from '../../utils/events'
+import { DataScroller } from 'primereact/datascroller'
+import styled from 'styled-components'
+
+const DatascrollerWrapper = styled(DataScroller)`
+  .p-datascroller-content {
+    padding: 0.2rem;
+  }
+  .p-datascroller-list {
+    display: grid;
+    gap: 0.3rem;
+  }
+`
 
 const ShoppingCart = () => {
   const [visible, setVisible] = useState(false)
 
   const [productList, setProductList] = useState([])
 
-  const addProduct = (event) => {
+  if (visible) {
     document.querySelector('body').style.overflow = 'hidden'
+  }
 
+  const addProduct = (event) => {
     const productData = event.detail
 
     // Checks if item is in list and ends function
@@ -22,6 +36,7 @@ const ShoppingCart = () => {
     if (productList.some((item) => item.id === productData.id)) return
 
     const pushProduct = [...productList, productData]
+
     setProductList(pushProduct)
   }
 
@@ -34,18 +49,20 @@ const ShoppingCart = () => {
     document.querySelector('body').style.overflow = 'auto'
   }
 
-  const renderProductList = productList.map((product) => {
-    return <CartCard key={product.id} product={product} />
-  })
+  const onDeleteProduct = (event) => {
+    console.log('DELETE pressed', event)
+  }
 
   // listening add product external event
   useEffect(() => {
     on('addProduct:click', addProduct)
+    on('on-delete-product', onDeleteProduct)
 
     return () => {
       off('addProduct:click', addProduct)
+      off('on-delete-product', onDeleteProduct)
     }
-  }, [openCart])
+  }, [addProduct, onDeleteProduct])
 
   return (
     <div>
@@ -62,20 +79,14 @@ const ShoppingCart = () => {
       >
         <h1>Mi Carrito</h1>
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.5rem',
-            height: '650px',
-            overflow: 'auto',
-            padding: '0.2rem',
-            alignContent: 'center',
-          }}
-          className="cart-list"
-        >
-          {renderProductList}
-        </div>
+        <DatascrollerWrapper
+          className="data-scroller"
+          value={productList}
+          itemTemplate={CartCard}
+          rows={5}
+          inline
+          scrollHeight="500px"
+        />
       </Sidebar>
     </div>
   )

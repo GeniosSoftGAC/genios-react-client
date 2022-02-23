@@ -61,6 +61,7 @@ const ProductCard = ({ name, price, image, data }) => {
 
     event.detail = {
       id: data.id,
+      image: data.foto,
       name: data.nombre,
       price: data.precio,
       description: data.descripcion,
