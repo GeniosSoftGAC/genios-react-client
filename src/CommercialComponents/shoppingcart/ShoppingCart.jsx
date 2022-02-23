@@ -17,13 +17,34 @@ const DatascrollerWrapper = styled(DataScroller)`
   }
 `
 
+const CustomSidebar = styled(Sidebar)`
+  .p-sidebar-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+`
+
 const ShoppingCart = () => {
   const [visible, setVisible] = useState(false)
+  const [total, setTotal] = useState(0)
 
   const [productList, setProductList] = useState([])
 
   if (visible) {
     document.querySelector('body').style.overflow = 'hidden'
+  }
+
+  const calcTotal = () => {
+    // check if productList have items
+    if (!productList.length) return
+
+    // apply reduce function to calc all prices
+    const sum = productList.reduce((previus, current) => {
+      return previus + current.price
+    }, 0)
+
+    return sum
   }
 
   const addProduct = (event) => {
@@ -38,6 +59,7 @@ const ShoppingCart = () => {
     const pushProduct = [...productList, productData]
 
     setProductList(pushProduct)
+    setTotal(calcTotal())
   }
 
   const openCart = () => {
@@ -72,12 +94,12 @@ const ShoppingCart = () => {
         badge={productList.length}
         onClick={openCart}
       />
-      <Sidebar
+      <CustomSidebar
         position="right"
         visible={visible}
         onHide={() => setVisible(false)}
       >
-        <h1>Mi Carrito</h1>
+        <h2 style={{ margin: '0', padding: '0' }}>Mi Carrito</h2>
 
         <DatascrollerWrapper
           className="data-scroller"
@@ -87,7 +109,13 @@ const ShoppingCart = () => {
           inline
           scrollHeight="500px"
         />
-      </Sidebar>
+
+        <p class="cart-total">
+          <strong>TOTAL:</strong> ${total}
+        </p>
+
+        <Button label="Hacer Compra" />
+      </CustomSidebar>
     </div>
   )
 }
