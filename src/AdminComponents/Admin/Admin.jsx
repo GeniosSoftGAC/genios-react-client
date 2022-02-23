@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link, Outlet } from 'react-router-dom'
 // Prime
-import { Sidebar } from 'primereact/sidebar'
-import { Button } from 'primereact/button'
+import { Menubar } from 'primereact/menubar'
 
-import { Splitter, SplitterPanel } from 'primereact/splitter'
-import { PanelMenu } from 'primereact/panelmenu'
+import { AdminWrapper } from './styled/AdminWrapper'
 
 import Logo from '../../assets/logo.svg'
 
@@ -26,6 +24,7 @@ const Admin = () => {
       icon: 'pi pi-fw pi-user',
       command: () => {
         navigate('/admin/user-admin')
+        setVisibleMenu(false)
       },
     },
     {
@@ -33,6 +32,7 @@ const Admin = () => {
       icon: 'pi pi-fw pi-shopping-bag',
       command: () => {
         navigate('/admin/product-admin')
+        setVisibleMenu(false)
       },
     },
     {
@@ -44,7 +44,12 @@ const Admin = () => {
     },
   ]
 
-  // const [visibleMenu, setVisibleMenu] = useState(false)
+  const menubarStart = () => (
+    <>
+      <img src={Logo} alt="Brand" />
+      <h4>Genios SoftGAC</h4>
+    </>
+  )
 
   useEffect(() => {
     history.pushState(null, document.title, location.href)
@@ -55,47 +60,12 @@ const Admin = () => {
   }, [])
 
   return (
-    <div>
-      <div className="card">
-        <Splitter style={{ height: '100vh' }} className="mb-5">
-          <SplitterPanel
-            size={15}
-            minSize={10}
-            className="flex align-items-center justify-content-center"
-          >
-            {/* <div className="admin-menu">
-              <Sidebar
-                visible={visibleMenu}
-                onHide={() => setVisibleMenu(false)}
-              >
-                <h3>Left Sidebar</h3>
-              </Sidebar>
-              <Button
-                icon="pi pi-arrow-right"
-                onClick={() => setVisibleMenu(true)}
-                className="mr-2"
-              />
-            </div> */}
-
-            <div className="panel-header">
-              <img src={Logo} alt="logo" />
-              <h2> Genios SoftGAC</h2>
-            </div>
-
-            <div className="card">
-              <PanelMenu model={items} style={{ width: '22rem' }} />
-            </div>
-          </SplitterPanel>
-          <SplitterPanel
-            size={75}
-            minSize={60}
-            className="flex align-items-center justify-content-center"
-          >
-            <Outlet />
-          </SplitterPanel>
-        </Splitter>
+    <AdminWrapper>
+      <Menubar model={items} start={menubarStart} />
+      <div className="admin-container">
+        <Outlet />
       </div>
-    </div>
+    </AdminWrapper>
   )
 }
 

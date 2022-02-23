@@ -17,7 +17,7 @@ import { Checkout } from './CommercialComponents/checkout/Checkout'
 import { LoginComponent } from './AdminComponents/Login/LoginComponent'
 import { Admin } from './AdminComponents/Admin/Admin'
 import { ProductAdmin } from './AdminComponents/Admin/ProductAdmin/ProductAdmin'
-import { UserAdmin } from './AdminComponents/Admin/ProductAdmin/UserAdmin'
+import { UserAdmin } from './AdminComponents/Admin/UserAdmin/UserAdmin'
 
 const App = () => {
   return (

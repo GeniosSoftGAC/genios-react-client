@@ -31,6 +31,7 @@ const LoginForm = () => {
     response.then((data) => {
       // Capture error messages
       if (!Object.keys(data).length) {
+        console.log(data)
         const dataErrorMessage = JSON.parse(data.message)
 
         if (dataErrorMessage.password) {
