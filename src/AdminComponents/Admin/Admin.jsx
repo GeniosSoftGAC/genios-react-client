@@ -10,6 +10,7 @@ import { AdminWrapper } from './styled/AdminWrapper'
 import Logo from '../../assets/logo.svg'
 
 const Admin = () => {
+  const hasUser = localStorage.getItem('login-data')
   const navigate = useNavigate()
 
   const confirmLogout = (event) => {
@@ -63,6 +64,11 @@ const Admin = () => {
   )
 
   useEffect(() => {
+    if (!hasUser) {
+      navigate('/')
+      return
+    }
+
     history.pushState(null, document.title, location.href)
 
     window.addEventListener('popstate', () => {
