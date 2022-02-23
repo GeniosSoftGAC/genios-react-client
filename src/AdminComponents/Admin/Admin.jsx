@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link, Outlet } from 'react-router-dom'
+import { confirmPopup } from 'primereact/confirmpopup'
+
 // Prime
 import { Menubar } from 'primereact/menubar'
 
@@ -9,6 +11,15 @@ import Logo from '../../assets/logo.svg'
 
 const Admin = () => {
   const navigate = useNavigate()
+
+  const confirmLogout = (event) => {
+    confirmPopup({
+      target: event.currentTarget,
+      message: '¿ Está seguro de cerrar la sesión ?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => onLogout(),
+    })
+  }
 
   const onLogout = () => {
     navigate('/')
@@ -38,8 +49,8 @@ const Admin = () => {
     {
       label: 'Cerrar Sesión',
       icon: 'pi pi-fw pi-external-link',
-      command: () => {
-        onLogout()
+      command: (event) => {
+        confirmLogout(event.originalEvent)
       },
     },
   ]
