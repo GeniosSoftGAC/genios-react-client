@@ -18,14 +18,14 @@ import './ProductAdminStyles.css'
 const ProductAdmin = () => {
   let emptyProduct = {
     id: null,
-    name: '',
-    image: null,
-    description: '',
-    category: null,
-    price: 0,
-    quantity: 0,
-    rating: 0,
-    inventoryStatus: 'INSTOCK',
+    nombre: '',
+    foto: null,
+    descripcion: '',
+    categoria: null,
+    precio: 0,
+    // cantidad: 0,
+    // rating: 0,
+    // inventoryStatus: 'INSTOCK',
   }
 
   const [products, setProducts] = useState(null)
@@ -47,9 +47,9 @@ const ProductAdmin = () => {
     })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const formatCurrency = (value) => {
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
-  }
+  // const formatCurrency = (value) => {
+  //   return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+  // }
 
   const openNew = () => {
     setProduct(emptyProduct)
@@ -73,7 +73,7 @@ const ProductAdmin = () => {
   const saveProduct = () => {
     setSubmitted(true)
 
-    if (product.name.trim()) {
+    if (product.nombre.trim()) {
       let _products = [...products]
       let _product = { ...product }
       if (product.id) {
@@ -274,19 +274,19 @@ const ProductAdmin = () => {
   const imageBodyTemplate = (rowData) => {
     return (
       <img
-        src={`images/product/${rowData.image}`}
+        src={rowData.foto}
         onError={(e) =>
           (e.target.src =
             'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')
         }
-        alt={rowData.image}
+        alt={rowData.foto}
         className="product-image"
       />
     )
   }
 
   const priceBodyTemplate = (rowData) => {
-    return formatCurrency(rowData.price)
+    return rowData.precio
   }
 
   // const ratingBodyTemplate = (rowData) => {
@@ -421,25 +421,25 @@ const ProductAdmin = () => {
             style={{ minWidth: '12rem' }}
           ></Column>
           <Column
-            field="name"
+            field="nombre"
             header="Nombre"
             sortable
             style={{ minWidth: '16rem' }}
           ></Column>
           <Column
-            field="image"
+            field="imagen"
             header="Imagen"
             body={imageBodyTemplate}
           ></Column>
           <Column
-            field="price"
+            field="precio"
             header="Precio"
             body={priceBodyTemplate}
             sortable
             style={{ minWidth: '8rem' }}
           ></Column>
           <Column
-            field="category"
+            field="categoria"
             header="Categoría"
             sortable
             style={{ minWidth: '10rem' }}
@@ -483,13 +483,15 @@ const ProductAdmin = () => {
           <label htmlFor="name">Name</label>
           <InputText
             id="name"
-            value={product.name}
+            value={product.nombre}
             onChange={(e) => onInputChange(e, 'name')}
             required
             autoFocus
-            className={classNames({ 'p-invalid': submitted && !product.name })}
+            className={classNames({
+              'p-invalid': submitted && !product.nombre,
+            })}
           />
-          {submitted && !product.name && (
+          {submitted && !product.nombre && (
             <small className="p-error">Name is required.</small>
           )}
         </div>
@@ -534,7 +536,7 @@ const ProductAdmin = () => {
                 name="category"
                 value="Electronics"
                 onChange={onCategoryChange}
-                checked={product.category === 'Electronics'}
+                checked={product.categoria === 'Electronics'}
               />
               <label htmlFor="category3">Electronics</label>
             </div>
@@ -544,7 +546,7 @@ const ProductAdmin = () => {
                 name="category"
                 value="Fitness"
                 onChange={onCategoryChange}
-                checked={product.category === 'Fitness'}
+                checked={product.categoria === 'Fitness'}
               />
               <label htmlFor="category4">Fitness</label>
             </div>
@@ -556,7 +558,7 @@ const ProductAdmin = () => {
             <label htmlFor="price">Price</label>
             <InputNumber
               id="price"
-              value={product.price}
+              value={product.precio}
               onValueChange={(e) => onInputNumberChange(e, 'price')}
               mode="currency"
               currency="USD"
@@ -567,7 +569,7 @@ const ProductAdmin = () => {
             <label htmlFor="quantity">Quantity</label>
             <InputNumber
               id="quantity"
-              value={product.quantity}
+              value={product.cantidad}
               onValueChange={(e) => onInputNumberChange(e, 'quantity')}
               integeronly
             />
@@ -590,7 +592,7 @@ const ProductAdmin = () => {
           />
           {product && (
             <span>
-              Are you sure you want to delete <b>{product.name}</b>?
+              Are you sure you want to delete <b>{product.nombre}</b>?
             </span>
           )}
         </div>
