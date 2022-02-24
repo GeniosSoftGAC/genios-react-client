@@ -148,42 +148,42 @@ const ProductAdmin = () => {
     return id
   }
 
-  const importCSV = (e) => {
-    const file = e.files[0]
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      const csv = e.target.result
-      const data = csv.split('\n')
+  // const importCSV = (e) => {
+  //   const file = e.files[0]
+  //   const reader = new FileReader()
+  //   reader.onload = (e) => {
+  //     const csv = e.target.result
+  //     const data = csv.split('\n')
 
-      // Prepare DataTable
-      const cols = data[0].replace(/['"]+/g, '').split(',')
-      data.shift()
+  //     // Prepare DataTable
+  //     const cols = data[0].replace(/['"]+/g, '').split(',')
+  //     data.shift()
 
-      const importedData = data.map((d) => {
-        d = d.split(',')
-        const processedData = cols.reduce((obj, c, i) => {
-          c =
-            c === 'Status'
-              ? 'inventoryStatus'
-              : c === 'Reviews'
-              ? 'rating'
-              : c.toLowerCase()
-          obj[c] = d[i].replace(/['"]+/g, '')
-          ;(c === 'price' || c === 'rating') && (obj[c] = parseFloat(obj[c]))
-          return obj
-        }, {})
+  //     const importedData = data.map((d) => {
+  //       d = d.split(',')
+  //       const processedData = cols.reduce((obj, c, i) => {
+  //         c =
+  //           c === 'Status'
+  //             ? 'inventoryStatus'
+  //             : c === 'Reviews'
+  //             ? 'rating'
+  //             : c.toLowerCase()
+  //         obj[c] = d[i].replace(/['"]+/g, '')
+  //         ;(c === 'price' || c === 'rating') && (obj[c] = parseFloat(obj[c]))
+  //         return obj
+  //       }, {})
 
-        processedData['id'] = createId()
-        return processedData
-      })
+  //       processedData['id'] = createId()
+  //       return processedData
+  //     })
 
-      const _products = [...products, ...importedData]
+  //     const _products = [...products, ...importedData]
 
-      setProducts(_products)
-    }
+  //     setProducts(_products)
+  //   }
 
-    reader.readAsText(file, 'UTF-8')
-  }
+  //   reader.readAsText(file, 'UTF-8')
+  // }
 
   const exportCSV = () => {
     dt.current.exportCSV()
@@ -201,7 +201,7 @@ const ProductAdmin = () => {
     toast.current.show({
       severity: 'success',
       summary: 'Successful',
-      detail: 'Products Deleted',
+      detail: 'Productos eliminados',
       life: 3000,
     })
   }
@@ -232,13 +232,13 @@ const ProductAdmin = () => {
     return (
       <React.Fragment>
         <Button
-          label="New"
+          label="Nuevo"
           icon="pi pi-plus"
           className="p-button-success mr-2"
           onClick={openNew}
         />
         <Button
-          label="Delete"
+          label="Eliminar"
           icon="pi pi-trash"
           className="p-button-danger"
           onClick={confirmDeleteSelected}
@@ -251,7 +251,7 @@ const ProductAdmin = () => {
   const rightToolbarTemplate = () => {
     return (
       <React.Fragment>
-        <FileUpload
+        {/* <FileUpload
           mode="basic"
           name="demo[]"
           auto
@@ -260,9 +260,9 @@ const ProductAdmin = () => {
           chooseLabel="Import"
           className="mr-2 inline-block"
           onUpload={importCSV}
-        />
+        /> */}
         <Button
-          label="Export"
+          label="Exportar"
           icon="pi pi-upload"
           className="p-button-help"
           onClick={exportCSV}
@@ -328,7 +328,7 @@ const ProductAdmin = () => {
         <InputText
           type="search"
           onInput={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Search..."
+          placeholder="Buscar..."
         />
       </span>
     </div>
@@ -336,13 +336,13 @@ const ProductAdmin = () => {
   const productDialogFooter = (
     <React.Fragment>
       <Button
-        label="Cancel"
+        label="Cancelar"
         icon="pi pi-times"
         className="p-button-text"
         onClick={hideDialog}
       />
       <Button
-        label="Save"
+        label="Guardar"
         icon="pi pi-check"
         className="p-button-text"
         onClick={saveProduct}
@@ -358,7 +358,7 @@ const ProductAdmin = () => {
         onClick={hideDeleteProductDialog}
       />
       <Button
-        label="Yes"
+        label="Si"
         icon="pi pi-check"
         className="p-button-text"
         onClick={deleteProduct}
@@ -374,7 +374,7 @@ const ProductAdmin = () => {
         onClick={hideDeleteProductsDialog}
       />
       <Button
-        label="Yes"
+        label="Si"
         icon="pi pi-check"
         className="p-button-text"
         onClick={deleteSelectedProducts}
@@ -462,7 +462,7 @@ const ProductAdmin = () => {
       <Dialog
         visible={productDialog}
         style={{ width: '450px' }}
-        header="Product Details"
+        header="Detalle de producto"
         modal
         className="p-fluid"
         footer={productDialogFooter}
@@ -480,11 +480,11 @@ const ProductAdmin = () => {
           />
         )}
         <div className="field">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Nombre</label>
           <InputText
-            id="name"
+            id="nombre"
             value={product.nombre}
-            onChange={(e) => onInputChange(e, 'name')}
+            onChange={(e) => onInputChange(e, 'nombre')}
             required
             autoFocus
             className={classNames({
@@ -496,11 +496,11 @@ const ProductAdmin = () => {
           )}
         </div>
         <div className="field">
-          <label htmlFor="description">Description</label>
+          <label htmlFor="description">Descripción</label>
           <InputTextarea
-            id="description"
-            value={product.description}
-            onChange={(e) => onInputChange(e, 'description')}
+            id="descripcion"
+            value={product.descripcion}
+            onChange={(e) => onInputChange(e, 'descripcion')}
             required
             rows={3}
             cols={20}
@@ -508,69 +508,49 @@ const ProductAdmin = () => {
         </div>
 
         <div className="field">
-          <label className="mb-3">Category</label>
+          <label className="mb-3">Categoría</label>
           <div className="formgrid grid">
             <div className="field-radiobutton col-6">
               <RadioButton
-                inputId="category1"
-                name="category"
-                value="Accessories"
+                inputId="categoria1"
+                name="categoria"
+                value="juguetes"
                 onChange={onCategoryChange}
-                checked={product.category === 'Accessories'}
+                checked={product.category === 'juguetes'}
               />
-              <label htmlFor="category1">Accessories</label>
+              <label htmlFor="category1">Juguetes</label>
             </div>
             <div className="field-radiobutton col-6">
               <RadioButton
-                inputId="category2"
-                name="category"
-                value="Clothing"
+                inputId="categoria2"
+                name="categoria"
+                value="muebles"
                 onChange={onCategoryChange}
-                checked={product.category === 'Clothing'}
+                checked={product.category === 'muebles'}
               />
-              <label htmlFor="category2">Clothing</label>
-            </div>
-            <div className="field-radiobutton col-6">
-              <RadioButton
-                inputId="category3"
-                name="category"
-                value="Electronics"
-                onChange={onCategoryChange}
-                checked={product.categoria === 'Electronics'}
-              />
-              <label htmlFor="category3">Electronics</label>
-            </div>
-            <div className="field-radiobutton col-6">
-              <RadioButton
-                inputId="category4"
-                name="category"
-                value="Fitness"
-                onChange={onCategoryChange}
-                checked={product.categoria === 'Fitness'}
-              />
-              <label htmlFor="category4">Fitness</label>
+              <label htmlFor="category2">Muebles</label>
             </div>
           </div>
         </div>
 
         <div className="formgrid grid">
           <div className="field col">
-            <label htmlFor="price">Price</label>
+            <label htmlFor="price">Precio</label>
             <InputNumber
-              id="price"
+              id="precio"
               value={product.precio}
-              onValueChange={(e) => onInputNumberChange(e, 'price')}
+              onValueChange={(e) => onInputNumberChange(e, 'precio')}
               mode="currency"
-              currency="USD"
+              currency="COP"
               locale="en-US"
             />
           </div>
           <div className="field col">
-            <label htmlFor="quantity">Quantity</label>
+            <label htmlFor="quantity">Cantidad</label>
             <InputNumber
-              id="quantity"
+              id="cantidad"
               value={product.cantidad}
-              onValueChange={(e) => onInputNumberChange(e, 'quantity')}
+              onValueChange={(e) => onInputNumberChange(e, 'cantidad')}
               integeronly
             />
           </div>
@@ -580,7 +560,7 @@ const ProductAdmin = () => {
       <Dialog
         visible={deleteProductDialog}
         style={{ width: '450px' }}
-        header="Confirm"
+        header="Confirmar"
         modal
         footer={deleteProductDialogFooter}
         onHide={hideDeleteProductDialog}
@@ -592,7 +572,7 @@ const ProductAdmin = () => {
           />
           {product && (
             <span>
-              Are you sure you want to delete <b>{product.nombre}</b>?
+              ¿ Está seguro de que desea eliminar <b>{product.nombre}</b>?
             </span>
           )}
         </div>
@@ -612,7 +592,9 @@ const ProductAdmin = () => {
             style={{ fontSize: '2rem' }}
           />
           {product && (
-            <span>Are you sure you want to delete the selected products?</span>
+            <span>
+              ¿ Está seguro de que desea eliminar los productos seleccionados ?
+            </span>
           )}
         </div>
       </Dialog>

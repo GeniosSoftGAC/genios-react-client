@@ -4,6 +4,10 @@
   justify-content: space-between;
 }
 
+.p-toolbar-group-left {
+  gap: 1rem;
+}
+
 @media screen and (max-width: 960px) {
   .datatable-crud-demo .table-header {
     align-items: flex-start;
