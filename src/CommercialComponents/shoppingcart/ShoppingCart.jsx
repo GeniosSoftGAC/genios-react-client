@@ -59,7 +59,6 @@ const ShoppingCart = () => {
     const pushProduct = [...productList, productData]
 
     setProductList(pushProduct)
-    setTotal(calcTotal())
   }
 
   const openCart = () => {
@@ -72,13 +71,29 @@ const ShoppingCart = () => {
   }
 
   const onDeleteProduct = (event) => {
-    console.log('DELETE pressed', event)
+    const selectedProductId = event.detail
+
+    // creates a new array deleting the product by id
+    const filteredProductList = productList.filter((product) => {
+      return product.id !== selectedProductId
+    })
+
+    // set list with the new filtered array
+    setProductList(filteredProductList)
+  }
+
+  // Make order event
+  const makeOrder = () => {
+    const orderListIds = productList.map((product) => product.id)
+
+    console.log('Lista de Ids para orden', orderListIds)
   }
 
   // listening add product external event
   useEffect(() => {
     on('addProduct:click', addProduct)
     on('on-delete-product', onDeleteProduct)
+    setTotal(calcTotal())
 
     return () => {
       off('addProduct:click', addProduct)
@@ -100,6 +115,9 @@ const ShoppingCart = () => {
         onHide={() => setVisible(false)}
       >
         <h2 style={{ margin: '0', padding: '0' }}>Mi Carrito</h2>
+        <span>
+          <strong># Productos: </strong> {productList.length}
+        </span>
 
         <DatascrollerWrapper
           className="data-scroller"
@@ -108,13 +126,14 @@ const ShoppingCart = () => {
           rows={5}
           inline
           scrollHeight="500px"
+          emptyMessage="No hay productos en el carrito."
         />
 
-        <p class="cart-total">
+        <p className="cart-total">
           <strong>TOTAL:</strong> ${total}
         </p>
 
-        <Button label="Hacer Compra" />
+        <Button label="Hacer Compra" onClick={makeOrder} />
       </CustomSidebar>
     </div>
   )

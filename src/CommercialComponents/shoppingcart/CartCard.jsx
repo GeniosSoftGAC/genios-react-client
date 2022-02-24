@@ -48,7 +48,7 @@ const CartCardWrapper = styled.div`
 
 const CartCard = (product) => {
   const onDelete = () => {
-    trigger('on-delete-product')
+    trigger('on-delete-product', product.id)
   }
 
   return (
