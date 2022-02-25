@@ -8,6 +8,41 @@
   gap: 1rem;
 }
 
+.product-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.p-dialog .p-dialog-content {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.field {
+  display: inherit;
+  gap: 0.3rem;
+}
+
+.field label {
+  font-weight: bold;
+}
+
+.formgrid.grid {
+  gap: 0.5rem;
+}
+
+.field-radiobutton {
+  display: flex;
+  gap: 0.3rem;
+  place-items: center;
+}
+
+.field-radiobutton label {
+  font-weight: normal;
+}
+
 @media screen and (max-width: 960px) {
   .datatable-crud-demo .table-header {
     align-items: flex-start;

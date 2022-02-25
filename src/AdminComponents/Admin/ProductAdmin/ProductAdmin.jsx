@@ -5,15 +5,13 @@ import { Column } from 'primereact/column'
 import { ProductService } from './ProductService'
 import { Toast } from 'primereact/toast'
 import { Button } from 'primereact/button'
-// import { FileUpload } from 'primereact/fileupload'
-// import { Rating } from 'primereact/rating'
 import { Toolbar } from 'primereact/toolbar'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { RadioButton } from 'primereact/radiobutton'
 import { InputNumber } from 'primereact/inputnumber'
 import { Dialog } from 'primereact/dialog'
 import { InputText } from 'primereact/inputtext'
-import './ProductAdminStyles.css'
+import '../styles/AdminStyles.css'
 
 const ProductAdmin = () => {
   let emptyProduct = {
@@ -25,8 +23,6 @@ const ProductAdmin = () => {
     dimensiones: '',
     referencia: '',
     // cantidad: 0,
-    // rating: 0,
-    // inventoryStatus: 'INSTOCK',
   }
 
   const [products, setProducts] = useState(null)
@@ -132,62 +128,16 @@ const ProductAdmin = () => {
     })
   }
 
-  const findIndexById = (id) => {
-    let index = -1
-    for (let i = 0; i < products.length; i++) {
-      if (products[i].id === id) {
-        index = i
-        break
-      }
-    }
-
-    return index
-  }
-
-  const createId = () => {
-    let id = ''
-    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    for (let i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length))
-    }
-    return id
-  }
-
-  // const importCSV = (e) => {
-  //   const file = e.files[0]
-  //   const reader = new FileReader()
-  //   reader.onload = (e) => {
-  //     const csv = e.target.result
-  //     const data = csv.split('\n')
-
-  //     // Prepare DataTable
-  //     const cols = data[0].replace(/['"]+/g, '').split(',')
-  //     data.shift()
-
-  //     const importedData = data.map((d) => {
-  //       d = d.split(',')
-  //       const processedData = cols.reduce((obj, c, i) => {
-  //         c =
-  //           c === 'Status'
-  //             ? 'inventoryStatus'
-  //             : c === 'Reviews'
-  //             ? 'rating'
-  //             : c.toLowerCase()
-  //         obj[c] = d[i].replace(/['"]+/g, '')
-  //         ;(c === 'price' || c === 'rating') && (obj[c] = parseFloat(obj[c]))
-  //         return obj
-  //       }, {})
-
-  //       processedData['id'] = createId()
-  //       return processedData
-  //     })
-
-  //     const _products = [...products, ...importedData]
-
-  //     setProducts(_products)
+  // const findIndexById = (id) => {
+  //   let index = -1
+  //   for (let i = 0; i < products.length; i++) {
+  //     if (products[i].id === id) {
+  //       index = i
+  //       break
+  //     }
   //   }
 
-  //   reader.readAsText(file, 'UTF-8')
+  //   return index
   // }
 
   const exportCSV = () => {
@@ -256,16 +206,6 @@ const ProductAdmin = () => {
   const rightToolbarTemplate = () => {
     return (
       <React.Fragment>
-        {/* <FileUpload
-          mode="basic"
-          name="demo[]"
-          auto
-          url="https://primefaces.org/primereact/showcase/upload.php"
-          accept=".csv"
-          chooseLabel="Import"
-          className="mr-2 inline-block"
-          onUpload={importCSV}
-        /> */}
         <Button
           label="Exportar"
           icon="pi pi-upload"
@@ -294,10 +234,6 @@ const ProductAdmin = () => {
     return rowData.precio
   }
 
-  // const ratingBodyTemplate = (rowData) => {
-  //   return <Rating value={rowData.rating} readOnly cancel={false} />
-  // }
-
   // const statusBodyTemplate = (rowData) => {
   //   return (
   //     <span
@@ -311,16 +247,18 @@ const ProductAdmin = () => {
   const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <Button
-          icon="pi pi-pencil"
-          className="p-button-rounded p-button-success mr-2"
-          onClick={() => editProduct(rowData)}
-        />
-        <Button
-          icon="pi pi-trash"
-          className="p-button-rounded p-button-warning"
-          onClick={() => confirmDeleteProduct(rowData)}
-        />
+        <div className="product-actions">
+          <Button
+            icon="pi pi-pencil"
+            className="p-button-rounded p-button-success mr-2"
+            onClick={() => editProduct(rowData)}
+          />
+          <Button
+            icon="pi pi-trash"
+            className="p-button-rounded p-button-danger"
+            onClick={() => confirmDeleteProduct(rowData)}
+          />
+        </div>
       </React.Fragment>
     )
   }
@@ -405,8 +343,8 @@ const ProductAdmin = () => {
           onSelectionChange={(e) => setSelectedProducts(e.value)}
           dataKey="id"
           paginator
-          rows={10}
-          rowsPerPageOptions={[5, 10, 25]}
+          rows={6}
+          rowsPerPageOptions={[6, 8]}
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
           currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos"
           globalFilter={globalFilter}
