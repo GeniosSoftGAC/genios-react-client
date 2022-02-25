@@ -73,8 +73,17 @@ const ProductCard = ({ name, price, image, data }) => {
     trigger('addProduct:click', event.detail)
   }
 
+  const onCardDetail = (event) => {
+    event.detail = data.id
+    trigger('productDetail:click', event.detail)
+  }
+
   return (
-    <ProductCardContainer className="card-container" image={image}>
+    <ProductCardContainer
+      onClick={onCardDetail}
+      className="card-container"
+      image={image}
+    >
       <div className="product-card__image"></div>
       <div className="product-info">
         <div>
