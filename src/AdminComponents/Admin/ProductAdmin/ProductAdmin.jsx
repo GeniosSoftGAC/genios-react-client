@@ -81,9 +81,10 @@ const ProductAdmin = () => {
       let _products = [...products]
       let _product = { ...product }
       if (product.id) {
-        const index = findIndexById(product.id)
+        delete _product.id
+        productService.updateProduct(_product, product.id)
+        refreshProducts()
 
-        _products[index] = _product
         toast.current.show({
           severity: 'success',
           summary: 'Successful',
@@ -118,10 +119,11 @@ const ProductAdmin = () => {
   }
 
   const deleteProduct = () => {
-    let _products = products.filter((val) => val.id !== product.id)
-    setProducts(_products)
+    // let _products = products.filter((val) => val.id !== product.id)
+    productService.deleteProduct(product.id)
+    // setProducts(_products)
     setDeleteProductDialog(false)
-    setProduct(emptyProduct)
+    refreshProducts()
     toast.current.show({
       severity: 'success',
       summary: 'Successful',

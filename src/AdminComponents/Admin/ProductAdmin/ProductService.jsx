@@ -5,6 +5,14 @@ export class ProductService {
       .then((data) => data)
   }
 
+  deleteProduct(id) {
+    return fetch(`http://localhost:8000/products/${id}`, {
+      method: 'DELETE',
+    })
+      .then((response) => response.text())
+      .then((data) => data)
+  }
+
   postNewProduct(product) {
     const headersList = {
       Accept: '*/*',
@@ -15,6 +23,24 @@ export class ProductService {
 
     return fetch('http://localhost:8000/products/', {
       method: 'POST',
+      body: bodyContent,
+      headers: headersList,
+    })
+      .then((response) => response.text())
+      .then((data) => data)
+  }
+
+  updateProduct(product, id) {
+    const headersList = {
+      Accept: '*/*',
+      'Content-Type': 'application/json',
+    }
+
+    const bodyContent = JSON.stringify(product)
+    console.log('update--->', bodyContent)
+
+    return fetch(`http://localhost:8000/products/${id}`, {
+      method: 'PUT',
       body: bodyContent,
       headers: headersList,
     })
