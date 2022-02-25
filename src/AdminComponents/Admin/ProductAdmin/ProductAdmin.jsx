@@ -5,8 +5,8 @@ import { Column } from 'primereact/column'
 import { ProductService } from './ProductService'
 import { Toast } from 'primereact/toast'
 import { Button } from 'primereact/button'
-import { FileUpload } from 'primereact/fileupload'
-import { Rating } from 'primereact/rating'
+// import { FileUpload } from 'primereact/fileupload'
+// import { Rating } from 'primereact/rating'
 import { Toolbar } from 'primereact/toolbar'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { RadioButton } from 'primereact/radiobutton'
@@ -17,12 +17,13 @@ import './ProductAdminStyles.css'
 
 const ProductAdmin = () => {
   let emptyProduct = {
-    id: null,
     nombre: '',
-    foto: null,
+    foto: '',
     descripcion: '',
     categoria: null,
     precio: 0,
+    dimensiones: '',
+    referencia: '',
     // cantidad: 0,
     // rating: 0,
     // inventoryStatus: 'INSTOCK',
@@ -40,11 +41,14 @@ const ProductAdmin = () => {
   const dt = useRef(null)
   const productService = new ProductService()
 
-  useEffect(() => {
+  const refreshProducts = () => {
     productService.getProducts().then((data) => {
-      console.log(data)
       setProducts(data)
     })
+  }
+
+  useEffect(() => {
+    refreshProducts()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // const formatCurrency = (value) => {
@@ -87,9 +91,8 @@ const ProductAdmin = () => {
           life: 3000,
         })
       } else {
-        _product.id = createId()
-        _product.image = 'product-placeholder.svg'
         _products.push(_product)
+        productService.postNewProduct(_product)
         toast.current.show({
           severity: 'success',
           summary: 'Successful',
@@ -98,7 +101,7 @@ const ProductAdmin = () => {
         })
       }
 
-      setProducts(_products)
+      refreshProducts()
       setProductDialog(false)
       setProduct(emptyProduct)
     }
@@ -208,7 +211,7 @@ const ProductAdmin = () => {
 
   const onCategoryChange = (e) => {
     let _product = { ...product }
-    _product['category'] = e.value
+    _product['categoria'] = e.value
     setProduct(_product)
   }
 
@@ -468,17 +471,6 @@ const ProductAdmin = () => {
         footer={productDialogFooter}
         onHide={hideDialog}
       >
-        {product.image && (
-          <img
-            src={`images/product/${product.image}`}
-            onError={(e) =>
-              (e.target.src =
-                'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')
-            }
-            alt={product.image}
-            className="product-image block m-auto pb-3"
-          />
-        )}
         <div className="field">
           <label htmlFor="name">Nombre</label>
           <InputText
@@ -495,6 +487,34 @@ const ProductAdmin = () => {
             <small className="p-error">Name is required.</small>
           )}
         </div>
+        {product.foto && (
+          <img
+            style={{ width: '100px' }}
+            src={product.foto}
+            onError={(e) =>
+              (e.target.src =
+                'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')
+            }
+            alt={product.foto}
+            className="product-image block m-auto pb-3"
+          />
+        )}
+        <div className="field">
+          <label htmlFor="name">Foto</label>
+          <InputText
+            id="foto"
+            value={product.foto}
+            onChange={(e) => onInputChange(e, 'foto')}
+            required
+            autoFocus
+            className={classNames({
+              'p-invalid': submitted && !product.foto,
+            })}
+          />
+          {submitted && !product.foto && (
+            <small className="p-error">La foto es obligatoria.</small>
+          )}
+        </div>
         <div className="field">
           <label htmlFor="description">Descripción</label>
           <InputTextarea
@@ -508,6 +528,40 @@ const ProductAdmin = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="name">Dimensiones</label>
+          <InputText
+            id="dimensiones"
+            value={product.dimensiones}
+            onChange={(e) => onInputChange(e, 'dimensiones')}
+            required
+            autoFocus
+            className={classNames({
+              'p-invalid': submitted && !product.dimensiones,
+            })}
+          />
+          {submitted && !product.dimensiones && (
+            <small className="p-error">Las dimensiones son obligatorias.</small>
+          )}
+        </div>
+
+        <div className="field">
+          <label htmlFor="name">Referencia</label>
+          <InputText
+            id="referencia"
+            value={product.referencia}
+            onChange={(e) => onInputChange(e, 'referencia')}
+            required
+            autoFocus
+            className={classNames({
+              'p-invalid': submitted && !product.referencia,
+            })}
+          />
+          {submitted && !product.referencia && (
+            <small className="p-error">La referencia es obligatoria.</small>
+          )}
+        </div>
+
+        <div className="field">
           <label className="mb-3">Categoría</label>
           <div className="formgrid grid">
             <div className="field-radiobutton col-6">
@@ -516,7 +570,7 @@ const ProductAdmin = () => {
                 name="categoria"
                 value="juguetes"
                 onChange={onCategoryChange}
-                checked={product.category === 'juguetes'}
+                checked={product.categoria === 'juguetes'}
               />
               <label htmlFor="category1">Juguetes</label>
             </div>
@@ -526,7 +580,7 @@ const ProductAdmin = () => {
                 name="categoria"
                 value="muebles"
                 onChange={onCategoryChange}
-                checked={product.category === 'muebles'}
+                checked={product.categoria === 'muebles'}
               />
               <label htmlFor="category2">Muebles</label>
             </div>
@@ -545,7 +599,7 @@ const ProductAdmin = () => {
               locale="en-US"
             />
           </div>
-          <div className="field col">
+          {/* <div className="field col">
             <label htmlFor="quantity">Cantidad</label>
             <InputNumber
               id="cantidad"
@@ -553,7 +607,7 @@ const ProductAdmin = () => {
               onValueChange={(e) => onInputNumberChange(e, 'cantidad')}
               integeronly
             />
-          </div>
+          </div> */}
         </div>
       </Dialog>
 
