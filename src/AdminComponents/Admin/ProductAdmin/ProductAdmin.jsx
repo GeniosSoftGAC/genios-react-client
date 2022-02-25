@@ -148,18 +148,18 @@ const ProductAdmin = () => {
     setDeleteProductsDialog(true)
   }
 
-  const deleteSelectedProducts = () => {
-    let _products = products.filter((val) => !selectedProducts.includes(val))
-    setProducts(_products)
-    setDeleteProductsDialog(false)
-    setSelectedProducts(null)
-    toast.current.show({
-      severity: 'success',
-      summary: 'Successful',
-      detail: 'Productos eliminados',
-      life: 3000,
-    })
-  }
+  // const deleteSelectedProducts = () => {
+  //   let _products = products.filter((val) => !selectedProducts.includes(val))
+  //   setProducts(_products)
+  //   setDeleteProductsDialog(false)
+  //   setSelectedProducts(null)
+  //   toast.current.show({
+  //     severity: 'success',
+  //     summary: 'Successful',
+  //     detail: 'Productos eliminados',
+  //     life: 3000,
+  //   })
+  // }
 
   const onCategoryChange = (e) => {
     let _product = { ...product }
@@ -308,22 +308,22 @@ const ProductAdmin = () => {
       />
     </React.Fragment>
   )
-  const deleteProductsDialogFooter = (
-    <React.Fragment>
-      <Button
-        label="No"
-        icon="pi pi-times"
-        className="p-button-text"
-        onClick={hideDeleteProductsDialog}
-      />
-      <Button
-        label="Si"
-        icon="pi pi-check"
-        className="p-button-text"
-        onClick={deleteSelectedProducts}
-      />
-    </React.Fragment>
-  )
+  // const deleteProductsDialogFooter = (
+  //   <React.Fragment>
+  //     <Button
+  //       label="No"
+  //       icon="pi pi-times"
+  //       className="p-button-text"
+  //       onClick={hideDeleteProductsDialog}
+  //     />
+  //     <Button
+  //       label="Si"
+  //       icon="pi pi-check"
+  //       className="p-button-text"
+  //       onClick={deleteSelectedProducts}
+  //     />
+  //   </React.Fragment>
+  // )
 
   return (
     <div className="datatable-crud-demo">
@@ -352,11 +352,11 @@ const ProductAdmin = () => {
           responsiveLayout="scroll"
           emptyMessage="No hay productos aún"
         >
-          <Column
+          {/* <Column
             selectionMode="multiple"
             headerStyle={{ width: '3rem' }}
             exportable={false}
-          ></Column>
+          ></Column> */}
           <Column
             field="id"
             header="Id"
@@ -572,7 +572,7 @@ const ProductAdmin = () => {
         </div>
       </Dialog>
 
-      <Dialog
+      {/* <Dialog
         visible={deleteProductsDialog}
         style={{ width: '450px' }}
         header="Confirm"
@@ -591,7 +591,7 @@ const ProductAdmin = () => {
             </span>
           )}
         </div>
-      </Dialog>
+      </Dialog> */}
     </div>
   )
 }

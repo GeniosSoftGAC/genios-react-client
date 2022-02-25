@@ -16,7 +16,7 @@ const ProductDetailWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
 `
 
@@ -38,7 +38,7 @@ const DetailTemplate = ({ product }) => {
       <Image src={product.foto} width="200" preview />
 
       <div className="product-detail-info">
-        <h3>{product.nombre}</h3>
+        <h2>{product.nombre}</h2>
         <p>
           <strong>Descripción:</strong> {product.descripcion}
         </p>

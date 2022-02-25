@@ -31,7 +31,7 @@ const Admin = () => {
 
   const items = [
     {
-      label: 'Usuarios',
+      label: 'Registrar Usuarios',
       icon: 'pi pi-fw pi-user',
       command: () => {
         navigate('/admin/user-admin')
