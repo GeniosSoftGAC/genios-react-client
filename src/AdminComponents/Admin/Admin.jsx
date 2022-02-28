@@ -35,7 +35,6 @@ const Admin = () => {
       icon: 'pi pi-fw pi-user',
       command: () => {
         navigate('/admin/user-admin')
-        setVisibleMenu(false)
       },
     },
     {
@@ -43,7 +42,6 @@ const Admin = () => {
       icon: 'pi pi-fw pi-shopping-bag',
       command: () => {
         navigate('/admin/product-admin')
-        setVisibleMenu(false)
       },
     },
     {

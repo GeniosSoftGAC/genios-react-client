@@ -27,6 +27,7 @@ const CustomSidebar = styled(Sidebar)`
 
 const ShoppingCart = () => {
   const [visible, setVisible] = useState(false)
+  const [displayClientForm, setDisplayClientForm] = useState(false)
   const [total, setTotal] = useState(0)
 
   const [productList, setProductList] = useState([])

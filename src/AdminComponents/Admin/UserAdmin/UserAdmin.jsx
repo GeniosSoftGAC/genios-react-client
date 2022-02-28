@@ -1,44 +1,79 @@
 import { UserService } from './UserService'
 import { useState } from 'react'
-import { Toast } from 'primereact/toast'
+// import { Toast } from 'primereact/toast'
 import { InputText } from 'primereact/inputtext'
 import { Password } from 'primereact/password'
 import { Button } from 'primereact/button'
+import { Divider } from 'primereact/divider'
 import { classNames } from 'primereact/utils'
-import '../styles/AdminStyles.css'
+import { Dialog } from 'primereact/dialog'
+import React from 'react'
 
+import { useForm, Controller } from 'react-hook-form'
+
+import '../styles/AdminStyles.css'
 const UserAdmin = () => {
-  let emptyProduct = {
+  const [userDialog, setUserDialog] = useState(false)
+  const [formData, setFormData] = useState({})
+
+  // TO use react-hook-form the initial object
+  // has to be called defaultValues
+  let defaultValues = {
     email: '',
     first_name: '',
-    second_name: '',
-    username: '',
+    last_name: '',
+    // username: '',
     phone: '',
     password: '',
-    password_confirmation: '',
+    // password_confirmation: '',
   }
 
-  const [user, setUser] = useState(emptyProduct)
-  const [submitted, setSubmitted] = useState(false)
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm({ defaultValues })
 
   const userService = new UserService()
 
-  // capture input values
-  const onInputChange = (event, name) => {
-    const value = (event.target && event.target.value) || ''
-    let _user = { ...user }
-    _user[`${name}`] = value
-
-    setUser(_user)
-  }
-
   const adminLink = 'http://localhost:8000/admin'
 
+  const onSubmit = (data) => {
+    userService.registerUser(data)
+    setFormData(data)
+    reset()
+  }
+
+  const getFormErrorMessage = (name) => {
+    return (
+      errors[name] && <small className="p-error">{errors[name].message}</small>
+    )
+  }
+
+  const passwordHeader = <h6>Crea una contraseña</h6>
+  const passwordFooter = (
+    <React.Fragment>
+      <Divider />
+      <p className="mt-2">Sugerencias</p>
+      <ul className="pl-2 ml-2 mt-0" style={{ lineHeight: '1.5' }}>
+        <li>Al menos una minúscula</li>
+        <li>Al menos una mayúscula</li>
+        <li>Al menos un numérico</li>
+        <li>Mínimo 8 caracteres.</li>
+      </ul>
+    </React.Fragment>
+  )
+
   return (
-    <div className="user-form-container">
+    <>
       <div className="user-form-titles">
         <h1>Registro de usuario</h1>
-        <Button label="Crear nuevo usuario" icon="pi pi-plus" />
+        <Button
+          label="Crear nuevo usuario"
+          onClick={() => setUserDialog(true)}
+          icon="pi pi-plus"
+        />
         <p>
           Si tiene permisos de super usuario,
           <br />
@@ -48,107 +83,148 @@ const UserAdmin = () => {
           </a>
         </p>
       </div>
-      <div className="user-form">
-        <div className="field">
-          <label htmlFor="first_name">Primer nombre</label>
-          <InputText
-            id="first_name"
-            value={user.first_name}
-            onChange={(e) => onInputChange(e, 'first_name')}
-            required
-            autoFocus
-            className={classNames({
-              'p-invalid': submitted && !user.first_name,
-            })}
-          />
-          {submitted && !user.first_name && (
-            <small className="p-error">First name is required.</small>
-          )}
-        </div>
-        <div className="field">
-          <label htmlFor="second_name">Segundo nombre</label>
-          <InputText
-            id="second_name"
-            value={user.second_name}
-            onChange={(e) => onInputChange(e, 'second_name')}
-            required
-            autoFocus
-            className={classNames({
-              'p-invalid': submitted && !user.second_name,
-            })}
-          />
-          {submitted && !user.second_name && (
-            <small className="p-error">Second Name is required.</small>
-          )}
-        </div>
-        <div className="field">
-          <label htmlFor="email">Correo</label>
-          <InputText
-            id="email"
-            value={user.email}
-            onChange={(e) => onInputChange(e, 'email')}
-            required
-            autoFocus
-            className={classNames({
-              'p-invalid': submitted && !user.email,
-            })}
-          />
-          {submitted && !user.email && (
-            <small className="p-error">Email is required.</small>
-          )}
-        </div>
-        <div className="field">
-          <label htmlFor="username">Nombre de usuario</label>
-          <InputText
-            id="username"
-            value={user.username}
-            onChange={(e) => onInputChange(e, 'username')}
-            required
-            autoFocus
-            className={classNames({
-              'p-invalid': submitted && !user.username,
-            })}
-          />
-          {submitted && !user.username && (
-            <small className="p-error">Username is required.</small>
-          )}
-        </div>
-        <div className="field">
-          <label htmlFor="phone">Teléfono</label>
-          <InputText
-            id="phone"
-            value={user.phone}
-            onChange={(e) => onInputChange(e, 'phone')}
-            required
-            autoFocus
-            className={classNames({
-              'p-invalid': submitted && !user.phone,
-            })}
-          />
-          {submitted && !user.phone && (
-            <small className="p-error">Phone is required.</small>
-          )}
-        </div>
-        <div className="field">
-          <label htmlFor="password">Contraseña</label>
-          <Password
-            id="password"
-            value={user.password}
-            onChange={(e) => onInputChange(e, 'password')}
-            toggleMask
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="password_confirmation">Confirmar Contraseña</label>
-          <Password
-            id="password_confirmation"
-            value={user.password_confirmation}
-            onChange={(e) => onInputChange(e, 'password_confirmation')}
-            toggleMask
-          />
-        </div>
-      </div>
-    </div>
+      <Dialog
+        visible={userDialog}
+        style={{ width: '450px' }}
+        header="Crear nuevo usuario"
+        modal
+        className="p-fluid"
+        onHide={() => setUserDialog(false)}
+      >
+        <form onSubmit={handleSubmit(onSubmit)} className="user-form p-fluid">
+          {/*    CAMPO PARA EMAIL */}
+          <div className="p-field">
+            <span className="p-float-label">
+              <Controller
+                name="email"
+                control={control}
+                rules={{
+                  required: 'El correo es obligatorio.',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: 'Correo no válido . E.g. ejemplo@email.com',
+                  },
+                }}
+                render={({ field, fieldState }) => (
+                  <InputText
+                    id={field.email}
+                    {...field}
+                    autoFocus
+                    className={classNames({ 'p-invalid': fieldState.invalid })}
+                  />
+                )}
+              />
+              <label
+                htmlFor="email"
+                className={classNames({ 'p-error': !!errors.email })}
+              >
+                Email*
+              </label>
+            </span>
+            {getFormErrorMessage('email')}
+          </div>
+          <div className="field">
+            <span className="p-float-label">
+              <Controller
+                name="first_name"
+                control={control}
+                rules={{ required: 'El Primer nombre es obligatorio.' }}
+                render={({ field, fieldState }) => (
+                  <InputText
+                    id={field.first_name}
+                    {...field}
+                    autoFocus
+                    className={classNames({ 'p-invalid': fieldState.invalid })}
+                  />
+                )}
+              />
+              <label
+                htmlFor="first_name"
+                className={classNames({ 'p-error': errors.first_name })}
+              >
+                Primer Nombre*
+              </label>
+            </span>
+            {getFormErrorMessage('first_name')}
+          </div>
+          <div className="field">
+            <span className="p-float-label">
+              <Controller
+                name="last_name"
+                control={control}
+                rules={{ required: 'El apellido es obligatorio.' }}
+                render={({ field, fieldState }) => (
+                  <InputText
+                    id={field.last_name}
+                    {...field}
+                    autoFocus
+                    className={classNames({ 'p-invalid': fieldState.invalid })}
+                  />
+                )}
+              />
+              <label
+                htmlFor="apellido_name"
+                className={classNames({ 'p-error': errors.last_name })}
+              >
+                Apellido*
+              </label>
+            </span>
+            {getFormErrorMessage('second_name')}
+          </div>
+          <div className="field">
+            <span className="p-float-label">
+              <Controller
+                name="phone"
+                control={control}
+                rules={{ required: 'El teléfono es obligatorio.' }}
+                render={({ field, fieldState }) => (
+                  <InputText
+                    id={field.phone}
+                    {...field}
+                    autoFocus
+                    className={classNames({ 'p-invalid': fieldState.invalid })}
+                  />
+                )}
+              />
+              <label
+                htmlFor="phone"
+                className={classNames({ 'p-error': errors.phone })}
+              >
+                Teléfono*
+              </label>
+            </span>
+            {getFormErrorMessage('phone')}
+          </div>
+          <div className="field">
+            <span className="p-float-label">
+              <Controller
+                name="password"
+                control={control}
+                rules={{ required: 'La contraseña es obligatoria' }}
+                render={({ field, fieldState }) => (
+                  <Password
+                    id={field.name}
+                    {...field}
+                    toggleMask
+                    className={classNames({ 'p-invalid': fieldState.invalid })}
+                    header={passwordHeader}
+                    footer={passwordFooter}
+                  />
+                )}
+              />
+              <label
+                htmlFor="password"
+                className={classNames({ 'p-error': errors.password })}
+              >
+                Contraseña*
+              </label>
+            </span>
+            {getFormErrorMessage('password')}
+          </div>
+          <Button type="submit" label="Crear Usuario" />
+        </form>
+      </Dialog>
+    </>
   )
 }
 

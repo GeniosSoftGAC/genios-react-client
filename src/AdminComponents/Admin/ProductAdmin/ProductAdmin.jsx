@@ -43,10 +43,6 @@ const ProductAdmin = () => {
     })
   }
 
-  useEffect(() => {
-    refreshProducts()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
   // const formatCurrency = (value) => {
   //   return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
   // }
@@ -98,7 +94,6 @@ const ProductAdmin = () => {
         })
       }
 
-      refreshProducts()
       setProductDialog(false)
       setProduct(emptyProduct)
     }
@@ -119,7 +114,6 @@ const ProductAdmin = () => {
     productService.deleteProduct(product.id)
     // setProducts(_products)
     setDeleteProductDialog(false)
-    refreshProducts()
     toast.current.show({
       severity: 'success',
       summary: 'Successful',
@@ -182,6 +176,11 @@ const ProductAdmin = () => {
 
     setProduct(_product)
   }
+  useEffect(() => {
+    refreshProducts()
+
+    return []
+  }, [deleteProduct, saveProduct]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const leftToolbarTemplate = () => {
     return (
