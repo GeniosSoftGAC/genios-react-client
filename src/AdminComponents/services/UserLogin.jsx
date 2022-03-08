@@ -1,4 +1,8 @@
+import variables from '../../environment/const'
+
 const UserLogin = async (email, password) => {
+  const apiUrl = variables.API_URL
+
   let headersList = {
     Accept: '*/*',
     'Content-Type': 'application/json',
@@ -11,7 +15,7 @@ const UserLogin = async (email, password) => {
 
   let returnedData = {}
 
-  await fetch('http://localhost:8000/users/login/', {
+  await fetch(`${apiUrl}/users/login/`, {
     method: 'POST',
     body: bodyContent,
     headers: headersList,

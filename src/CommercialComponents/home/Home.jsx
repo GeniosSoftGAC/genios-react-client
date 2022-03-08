@@ -2,6 +2,7 @@ import { Navbar } from '../../MicroComponents/Navbar'
 import { Hero } from '../../MicroComponents/Hero'
 import heroImage from '../../assets/heroImage.png'
 import logo from '../../assets/logo.svg'
+import variables from '../../environment/const'
 
 const Home = () => {
   const HomeItems = [

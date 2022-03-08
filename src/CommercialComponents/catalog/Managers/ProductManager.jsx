@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Products } from '../Products'
 import { Paginator } from 'primereact/paginator'
+import variables from '../../../environment/const'
 
 const fetchProducts = (limit) => {
   const productLimit = limit || 6
@@ -16,7 +17,7 @@ const fetchProducts = (limit) => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/products')
+    fetch(`${variables.API_URL}/products`)
       .then((response) => response.json())
       .then((data) => {
         setIsLoaded(true)

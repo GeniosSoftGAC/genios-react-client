@@ -1,12 +1,15 @@
+import variables from '../../../environment/const'
+
+const apiUrl = variables.API_URL
 export class ProductService {
   getProducts() {
-    return fetch('http://localhost:8000/products')
+    return fetch(`${apiUrl}/products`)
       .then((response) => response.json())
       .then((data) => data)
   }
 
   deleteProduct(id) {
-    return fetch(`http://localhost:8000/products/${id}`, {
+    return fetch(`${apiUrl}/products/${id}`, {
       method: 'DELETE',
     })
       .then((response) => response.text())
@@ -21,7 +24,7 @@ export class ProductService {
 
     const bodyContent = JSON.stringify(product)
 
-    return fetch('http://localhost:8000/products/', {
+    return fetch(`${apiUrl}/products/`, {
       method: 'POST',
       body: bodyContent,
       headers: headersList,
@@ -39,7 +42,7 @@ export class ProductService {
     const bodyContent = JSON.stringify(product)
     console.log('update--->', bodyContent)
 
-    return fetch(`http://localhost:8000/products/${id}`, {
+    return fetch(`${apiUrl}/products/${id}`, {
       method: 'PUT',
       body: bodyContent,
       headers: headersList,

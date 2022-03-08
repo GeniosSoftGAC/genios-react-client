@@ -7,6 +7,7 @@ import { Button } from 'primereact/button'
 import { Divider } from 'primereact/divider'
 import { classNames } from 'primereact/utils'
 import { Dialog } from 'primereact/dialog'
+import variables from '../../../environment/const'
 import React from 'react'
 
 import { useForm, Controller } from 'react-hook-form'
@@ -14,6 +15,12 @@ import { useForm, Controller } from 'react-hook-form'
 import '../styles/AdminStyles.css'
 const UserAdmin = () => {
   const [userDialog, setUserDialog] = useState(false)
+  const [errorDialog, setErrorDialog] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [success, setSuccess] = useState({
+    visible: false,
+    message: '',
+  })
   const [formData, setFormData] = useState({})
 
   // TO use react-hook-form the initial object
@@ -37,10 +44,23 @@ const UserAdmin = () => {
 
   const userService = new UserService()
 
-  const adminLink = 'http://localhost:8000/admin'
+  const adminLink = `${variables.API_URL}/admin`
 
   const onSubmit = (data) => {
-    userService.registerUser(data)
+    userService.registerUser(data).then((data) => {
+      // handle errors
+      if (data.message) {
+        const errorMessage = JSON.parse(data.message)
+        Object.keys(errorMessage).forEach((field) => {
+          setErrorMessage(`${field} ${errorMessage[field][0]}`)
+        })
+        setErrorDialog(true)
+        return
+      }
+
+      setSuccess({ visible: true, message: 'Usuario creado exitosamente' })
+    })
+
     setFormData(data)
     reset()
   }
@@ -223,6 +243,22 @@ const UserAdmin = () => {
           </div>
           <Button type="submit" label="Crear Usuario" />
         </form>
+      </Dialog>
+
+      <Dialog
+        visible={errorDialog}
+        header="ERROR DE REGISTRO"
+        modal
+        onHide={() => setErrorDialog(false)}
+      >
+        <p>{errorMessage}</p>
+      </Dialog>
+      <Dialog
+        visible={success.visible}
+        modal
+        onHide={() => setSuccess({ ...success, visible: false })}
+      >
+        <p>{success.message}</p>
       </Dialog>
     </>
   )

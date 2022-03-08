@@ -38,7 +38,7 @@ const ProductAdmin = () => {
   const productService = new ProductService()
 
   const refreshProducts = () => {
-    productService.getProducts().then((data) => {
+    return productService.getProducts().then((data) => {
       setProducts(data)
     })
   }
@@ -122,18 +122,6 @@ const ProductAdmin = () => {
     })
   }
 
-  // const findIndexById = (id) => {
-  //   let index = -1
-  //   for (let i = 0; i < products.length; i++) {
-  //     if (products[i].id === id) {
-  //       index = i
-  //       break
-  //     }
-  //   }
-
-  //   return index
-  // }
-
   const exportCSV = () => {
     dt.current.exportCSV()
   }
@@ -141,19 +129,6 @@ const ProductAdmin = () => {
   const confirmDeleteSelected = () => {
     setDeleteProductsDialog(true)
   }
-
-  // const deleteSelectedProducts = () => {
-  //   let _products = products.filter((val) => !selectedProducts.includes(val))
-  //   setProducts(_products)
-  //   setDeleteProductsDialog(false)
-  //   setSelectedProducts(null)
-  //   toast.current.show({
-  //     severity: 'success',
-  //     summary: 'Successful',
-  //     detail: 'Productos eliminados',
-  //     life: 3000,
-  //   })
-  // }
 
   const onCategoryChange = (e) => {
     let _product = { ...product }
@@ -176,10 +151,11 @@ const ProductAdmin = () => {
 
     setProduct(_product)
   }
-  useEffect(() => {
-    refreshProducts()
 
-    return []
+  useEffect(() => {
+    let isMounted = true
+    refreshProducts()
+    return () => (isMounted = false)
   }, [deleteProduct, saveProduct]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const leftToolbarTemplate = () => {
@@ -287,7 +263,9 @@ const ProductAdmin = () => {
         label="Guardar"
         icon="pi pi-check"
         className="p-button-text"
-        onClick={saveProduct}
+        type="submit"
+        form="product-form"
+        // onClick={saveProduct}
       />
     </React.Fragment>
   )
@@ -323,6 +301,11 @@ const ProductAdmin = () => {
   //     />
   //   </React.Fragment>
   // )
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    saveProduct()
+  }
 
   return (
     <div className="datatable-crud-demo">
@@ -410,144 +393,148 @@ const ProductAdmin = () => {
         footer={productDialogFooter}
         onHide={hideDialog}
       >
-        <div className="field">
-          <label htmlFor="name">Nombre</label>
-          <InputText
-            id="nombre"
-            value={product.nombre}
-            onChange={(e) => onInputChange(e, 'nombre')}
-            required
-            autoFocus
-            className={classNames({
-              'p-invalid': submitted && !product.nombre,
-            })}
-          />
-          {submitted && !product.nombre && (
-            <small className="p-error">Name is required.</small>
+        <form id="product-form" onSubmit={handleSubmit}>
+          <div className="field">
+            <label htmlFor="name">Nombre</label>
+            <InputText
+              id="nombre"
+              value={product.nombre}
+              onChange={(e) => onInputChange(e, 'nombre')}
+              required
+              autoFocus
+              className={classNames({
+                'p-invalid': submitted && !product.nombre,
+              })}
+            />
+            {submitted && !product.nombre && (
+              <small className="p-error">Name is required.</small>
+            )}
+          </div>
+          {product.foto && (
+            <img
+              style={{ width: '100px' }}
+              src={product.foto}
+              onError={(e) =>
+                (e.target.src =
+                  'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')
+              }
+              alt={product.foto}
+              className="product-image block m-auto pb-3"
+            />
           )}
-        </div>
-        {product.foto && (
-          <img
-            style={{ width: '100px' }}
-            src={product.foto}
-            onError={(e) =>
-              (e.target.src =
-                'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')
-            }
-            alt={product.foto}
-            className="product-image block m-auto pb-3"
-          />
-        )}
-        <div className="field">
-          <label htmlFor="name">Foto</label>
-          <InputText
-            id="foto"
-            value={product.foto}
-            onChange={(e) => onInputChange(e, 'foto')}
-            required
-            autoFocus
-            className={classNames({
-              'p-invalid': submitted && !product.foto,
-            })}
-          />
-          {submitted && !product.foto && (
-            <small className="p-error">La foto es obligatoria.</small>
-          )}
-        </div>
-        <div className="field">
-          <label htmlFor="description">Descripción</label>
-          <InputTextarea
-            id="descripcion"
-            value={product.descripcion}
-            onChange={(e) => onInputChange(e, 'descripcion')}
-            required
-            rows={3}
-            cols={20}
-          />
-        </div>
+          <div className="field">
+            <label htmlFor="name">Foto</label>
+            <InputText
+              id="foto"
+              value={product.foto}
+              onChange={(e) => onInputChange(e, 'foto')}
+              required
+              autoFocus
+              className={classNames({
+                'p-invalid': submitted && !product.foto,
+              })}
+            />
+            {submitted && !product.foto && (
+              <small className="p-error">La foto es obligatoria.</small>
+            )}
+          </div>
+          <div className="field">
+            <label htmlFor="description">Descripción</label>
+            <InputTextarea
+              id="descripcion"
+              value={product.descripcion}
+              onChange={(e) => onInputChange(e, 'descripcion')}
+              required
+              rows={3}
+              cols={20}
+            />
+          </div>
 
-        <div className="field">
-          <label htmlFor="name">Dimensiones</label>
-          <InputText
-            id="dimensiones"
-            value={product.dimensiones}
-            onChange={(e) => onInputChange(e, 'dimensiones')}
-            required
-            autoFocus
-            className={classNames({
-              'p-invalid': submitted && !product.dimensiones,
-            })}
-          />
-          {submitted && !product.dimensiones && (
-            <small className="p-error">Las dimensiones son obligatorias.</small>
-          )}
-        </div>
+          <div className="field">
+            <label htmlFor="name">Dimensiones</label>
+            <InputText
+              id="dimensiones"
+              value={product.dimensiones}
+              onChange={(e) => onInputChange(e, 'dimensiones')}
+              required
+              autoFocus
+              className={classNames({
+                'p-invalid': submitted && !product.dimensiones,
+              })}
+            />
+            {submitted && !product.dimensiones && (
+              <small className="p-error">
+                Las dimensiones son obligatorias.
+              </small>
+            )}
+          </div>
 
-        <div className="field">
-          <label htmlFor="name">Referencia</label>
-          <InputText
-            id="referencia"
-            value={product.referencia}
-            onChange={(e) => onInputChange(e, 'referencia')}
-            required
-            autoFocus
-            className={classNames({
-              'p-invalid': submitted && !product.referencia,
-            })}
-          />
-          {submitted && !product.referencia && (
-            <small className="p-error">La referencia es obligatoria.</small>
-          )}
-        </div>
+          <div className="field">
+            <label htmlFor="name">Referencia</label>
+            <InputText
+              id="referencia"
+              value={product.referencia}
+              onChange={(e) => onInputChange(e, 'referencia')}
+              required
+              autoFocus
+              className={classNames({
+                'p-invalid': submitted && !product.referencia,
+              })}
+            />
+            {submitted && !product.referencia && (
+              <small className="p-error">La referencia es obligatoria.</small>
+            )}
+          </div>
 
-        <div className="field">
-          <label className="mb-3">Categoría</label>
+          <div className="field">
+            <label className="mb-3">Categoría</label>
+            <div className="formgrid grid">
+              <div className="field-radiobutton col-6">
+                <RadioButton
+                  inputId="categoria1"
+                  name="categoria"
+                  value="juguetes"
+                  onChange={onCategoryChange}
+                  checked={product.categoria === 'juguetes'}
+                />
+                <label htmlFor="category1">Juguetes</label>
+              </div>
+              <div className="field-radiobutton col-6">
+                <RadioButton
+                  inputId="categoria2"
+                  name="categoria"
+                  value="muebles"
+                  onChange={onCategoryChange}
+                  checked={product.categoria === 'muebles'}
+                />
+                <label htmlFor="category2">Muebles</label>
+              </div>
+            </div>
+          </div>
+
           <div className="formgrid grid">
-            <div className="field-radiobutton col-6">
-              <RadioButton
-                inputId="categoria1"
-                name="categoria"
-                value="juguetes"
-                onChange={onCategoryChange}
-                checked={product.categoria === 'juguetes'}
+            <div className="field col">
+              <label htmlFor="price">Precio</label>
+              <InputNumber
+                id="precio"
+                value={product.precio}
+                onValueChange={(e) => onInputNumberChange(e, 'precio')}
+                mode="currency"
+                currency="COP"
+                locale="en-US"
               />
-              <label htmlFor="category1">Juguetes</label>
             </div>
-            <div className="field-radiobutton col-6">
-              <RadioButton
-                inputId="categoria2"
-                name="categoria"
-                value="muebles"
-                onChange={onCategoryChange}
-                checked={product.categoria === 'muebles'}
+            {/* <div className="field col">
+              <label htmlFor="quantity">Cantidad</label>
+              <InputNumber
+                id="cantidad"
+                value={product.cantidad}
+                onValueChange={(e) => onInputNumberChange(e, 'cantidad')}
+                integeronly
               />
-              <label htmlFor="category2">Muebles</label>
-            </div>
+            </div> */}
           </div>
-        </div>
-
-        <div className="formgrid grid">
-          <div className="field col">
-            <label htmlFor="price">Precio</label>
-            <InputNumber
-              id="precio"
-              value={product.precio}
-              onValueChange={(e) => onInputNumberChange(e, 'precio')}
-              mode="currency"
-              currency="COP"
-              locale="en-US"
-            />
-          </div>
-          {/* <div className="field col">
-            <label htmlFor="quantity">Cantidad</label>
-            <InputNumber
-              id="cantidad"
-              value={product.cantidad}
-              onValueChange={(e) => onInputNumberChange(e, 'cantidad')}
-              integeronly
-            />
-          </div> */}
-        </div>
+        </form>
       </Dialog>
 
       <Dialog
