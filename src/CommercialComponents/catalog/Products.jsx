@@ -8,7 +8,7 @@ import { Image } from 'primereact/image'
 const ProductGrid = styled.div`
   padding: 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   grid-gap: 1rem;
 `
 
