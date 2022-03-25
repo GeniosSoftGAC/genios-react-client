@@ -156,7 +156,7 @@ const ProductAdmin = () => {
     let isMounted = true
     refreshProducts()
     return () => (isMounted = false)
-  }, [deleteProduct, saveProduct]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const leftToolbarTemplate = () => {
     return (
