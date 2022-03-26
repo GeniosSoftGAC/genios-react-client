@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
 
 // Importar libreria de componentes PrimeReact
 
@@ -20,6 +21,18 @@ import { ProductAdmin } from './AdminComponents/Admin/ProductAdmin/ProductAdmin'
 import { UserAdmin } from './AdminComponents/Admin/UserAdmin/UserAdmin'
 
 const App = () => {
+  const alertUser = (event) => {
+    event.preventDefault()
+    event.returnValue = ''
+  }
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', alertUser)
+    return () => {
+      window.removeEventListener('beforeunload', alertUser)
+    }
+  }, [])
+
   return (
     <div className="App">
       <BrowserRouter>

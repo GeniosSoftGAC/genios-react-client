@@ -10,6 +10,7 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import { RadioButton } from 'primereact/radiobutton'
 import { InputNumber } from 'primereact/inputnumber'
 import { Dialog } from 'primereact/dialog'
+import { Tooltip } from 'primereact/tooltip'
 import { InputText } from 'primereact/inputtext'
 import '../styles/AdminStyles.css'
 
@@ -96,6 +97,10 @@ const ProductAdmin = () => {
 
       setProductDialog(false)
       setProduct(emptyProduct)
+
+      setTimeout(() => {
+        refreshProducts()
+      }, 1000)
     }
   }
 
@@ -241,6 +246,18 @@ const ProductAdmin = () => {
   const header = (
     <div className="table-header">
       <h5 className="mx-0 my-1">Gestionar Productos</h5>
+      <Button
+        label="Refrescar"
+        icon="pi pi-refresh"
+        className="p-button-success"
+        tooltip="Si no aparece su producto actualize aquí."
+        tooltipOptions={{
+          position: 'bottom',
+          mouseTrack: true,
+          mouseTrackTop: 15,
+        }}
+        onClick={() => refreshProducts()}
+      />
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
