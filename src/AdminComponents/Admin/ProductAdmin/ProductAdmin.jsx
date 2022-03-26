@@ -172,13 +172,6 @@ const ProductAdmin = () => {
           className="p-button-success mr-2"
           onClick={openNew}
         />
-        <Button
-          label="Eliminar"
-          icon="pi pi-trash"
-          className="p-button-danger"
-          onClick={confirmDeleteSelected}
-          disabled={!selectedProducts || !selectedProducts.length}
-        />
       </React.Fragment>
     )
   }
@@ -249,7 +242,7 @@ const ProductAdmin = () => {
       <Button
         label="Refrescar"
         icon="pi pi-refresh"
-        className="p-button-success"
+        className="p-button-outlined p-button-help"
         tooltip="Si no aparece su producto actualize aquí."
         tooltipOptions={{
           position: 'bottom',
