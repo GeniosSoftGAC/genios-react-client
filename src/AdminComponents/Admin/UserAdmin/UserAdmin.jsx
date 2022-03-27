@@ -44,7 +44,7 @@ const UserAdmin = () => {
 
   const userService = new UserService()
 
-  const adminLink = `${variables.API_URL}/admin`
+  const adminLink = `http://ec2-54-233-147-49.sa-east-1.compute.amazonaws.com:8000/admin`
 
   const onSubmit = (data) => {
     userService.registerUser(data).then((data) => {
