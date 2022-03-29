@@ -4,6 +4,7 @@ import { trigger } from '../../utils/events'
 import styled from 'styled-components'
 
 const ProductCardContainer = styled.div`
+  position: relative;
   display: grid;
   grid-gap: 1rem;
   box-shadow: 0px 4px 30px 0px rgba(104, 117, 130, 0.14);
@@ -42,7 +43,15 @@ const ProductCardContainer = styled.div`
   }
 
   .product-name {
-    font-size: 1.2rem;
+    font-size: 1rem;
+  }
+  .p-button {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+  }
+  .p-button.p-button-icon-only {
+    padding: 0;
   }
 `
 
@@ -96,6 +105,7 @@ const ProductCard = ({ name, price, image, data }) => {
         <Button
           icon="pi pi-plus"
           className="add-cart p-button-rounded"
+          tooltip="Agregar producto al carrito"
           onClick={onAddToCart}
         />
       </div>

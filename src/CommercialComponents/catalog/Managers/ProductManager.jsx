@@ -16,6 +16,8 @@ const fetchProducts = (limit) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [products, setProducts] = useState([])
 
+  console.log('Product list ', products)
+
   useEffect(() => {
     fetch(`${variables.API_URL}/products`)
       .then((response) => response.json())
